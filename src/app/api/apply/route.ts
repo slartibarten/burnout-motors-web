@@ -9,11 +9,7 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: 'All fields are required.' }, { status: 400 });
     }
 
-    if (!email.endsWith('@uio.no')) {
-      return NextResponse.json({ error: 'Please use your UiO email address.' }, { status: 400 });
-    }
-
-    const db = await mysql.createConnection({
+const db = await mysql.createConnection({
       host: process.env.DB_HOST!,
       user: process.env.DB_USER!,
       password: process.env.DB_PASSWORD!,

@@ -55,7 +55,7 @@ export default function ApplyForm() {
     <Card stripe inverse padding="48px">
       <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '18px' }}>
         <Input label="Full name" placeholder="Ola Nordmann" name="name" />
-        <Input label="UiO email" placeholder="olan@uio.no" type="email" name="email" />
+        <Input label="Email" placeholder="din@epost.no" type="email" name="email" />
         <Input label="Field of study" placeholder="e.g. Mechanical engineering" name="field" />
 
         {state === 'error' && (

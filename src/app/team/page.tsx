@@ -1,5 +1,5 @@
 import PageShell from '@/components/PageShell';
-import { Card, Input, Button } from '@/components/ui';
+import ApplyForm from '@/components/ApplyForm';
 
 const members = [
   { name: 'Johar Khalid', role: '' },
@@ -136,14 +136,7 @@ export default function TeamPage() {
           }}>
             Recruitment opens each semester. Tell us who you are and what you study — no prior motorsport experience required, only the will to put in the hours.
           </p>
-          <Card stripe inverse padding="48px">
-            <form style={{ display: 'flex', flexDirection: 'column', gap: '18px' }}>
-              <Input label="Full name" placeholder="Ola Nordmann" name="name" />
-              <Input label="UiO email" placeholder="olan@uio.no" type="email" name="email" />
-              <Input label="Field of study" placeholder="e.g. Mechanical engineering" name="field" />
-              <Button variant="accent" size="lg" fullWidth type="submit">Submit application</Button>
-            </form>
-          </Card>
+          <ApplyForm />
         </div>
       </section>
     </PageShell>

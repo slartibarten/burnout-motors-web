@@ -1,5 +1,5 @@
 import PageShell from '@/components/PageShell';
-import { Card, Input, Button } from '@/components/ui';
+import ContactForm from '@/components/ContactForm';
 
 export default function ContactPage() {
   return (
@@ -46,47 +46,7 @@ export default function ContactPage() {
       {/* FORM */}
       <section style={{ padding: '64px 32px 96px', background: 'var(--ink-1000)', borderTop: '1px solid var(--ink-800)' }}>
         <div style={{ maxWidth: '720px', margin: '0 auto' }}>
-          <Card stripe inverse padding="48px">
-            <h3 style={{ fontSize: '24px', color: 'var(--ink-0)', marginBottom: '4px', fontFamily: 'var(--font-display)', fontWeight: 700 }}>
-              Send a message
-            </h3>
-            <p style={{ fontSize: '14px', color: 'var(--ink-300)', marginTop: 0, marginBottom: '24px', fontFamily: 'var(--font-text)' }}>
-              We usually reply within a few days.
-            </p>
-            <form style={{ display: 'flex', flexDirection: 'column', gap: '18px' }}>
-              <Input label="Name" placeholder="Your name" name="name" />
-              <Input label="Email" placeholder="you@company.no" type="email" name="email" />
-              <Input label="Subject" placeholder="What is this about?" name="subject" />
-              <label style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
-                <span style={{
-                  fontFamily: 'var(--font-display)',
-                  fontWeight: 700,
-                  fontSize: '12px',
-                  letterSpacing: '0.12em',
-                  textTransform: 'uppercase',
-                  color: 'var(--ink-400)',
-                }}>Message</span>
-                <textarea
-                  rows={6}
-                  name="message"
-                  placeholder="Tell us more…"
-                  style={{
-                    fontFamily: 'var(--font-text)',
-                    fontSize: '15px',
-                    color: 'var(--ink-0)',
-                    padding: '12px 14px',
-                    borderRadius: 'var(--radius-md)',
-                    border: '2px solid var(--ink-700)',
-                    background: 'var(--ink-800)',
-                    resize: 'vertical',
-                    outline: 'none',
-                    width: '100%',
-                  }}
-                />
-              </label>
-              <Button variant="accent" size="lg" fullWidth type="submit">Send message</Button>
-            </form>
-          </Card>
+          <ContactForm />
         </div>
       </section>
     </PageShell>

@@ -24,7 +24,9 @@ export async function POST(req: NextRequest) {
 
     await db.end();
 
-    await sendApplicationNotification({ name, email, field });
+    sendApplicationNotification({ name, email, field }).catch((err) =>
+      console.error('Email notification failed:', err)
+    );
 
     return NextResponse.json({ ok: true });
   } catch (err) {

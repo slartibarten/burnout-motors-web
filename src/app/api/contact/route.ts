@@ -24,7 +24,9 @@ export async function POST(req: NextRequest) {
 
     await db.end();
 
-    await sendContactNotification({ name, email, subject: subject ?? '', message });
+    sendContactNotification({ name, email, subject: subject ?? '', message }).catch((err) =>
+      console.error('Email notification failed:', err)
+    );
 
     return NextResponse.json({ ok: true });
   } catch (err) {

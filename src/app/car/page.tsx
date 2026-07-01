@@ -43,7 +43,7 @@ export default function CarPage() {
             fontWeight: 800,
             lineHeight: 0.95,
           }}>
-            {c.hero_title.replace('GT3', '')}
+            {c.hero_title.split('GT3')[0]}
             <span style={{ color: 'var(--ember-500)' }}>GT3</span>
             {c.hero_title.split('GT3')[1]}
           </h1>

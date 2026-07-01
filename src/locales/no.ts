@@ -123,7 +123,7 @@ const no = {
     tagline: 'Universitetet i Oslo · GT3 · Racing NM',
     copyright: '© Burnout Motors — Knus · fiks · test på nytt',
   },
-} as const;
+};
 
 export type Translations = typeof no;
 export default no;

@@ -76,7 +76,7 @@ export default function HomePage() {
                 color: 'var(--ink-0)',
                 maxWidth: '15ch',
               }}>
-                {h.hero_title.replace('GT3', '')}
+                {h.hero_title.split('GT3')[0]}
                 <span style={{ color: 'var(--ember-500)' }}>GT3</span>
                 {h.hero_title.split('GT3')[1]}
               </h1>

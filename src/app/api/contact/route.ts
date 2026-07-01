@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import mysql from 'mysql2/promise';
+import { sendContactNotification } from '@/lib/email';
 
 export async function POST(req: NextRequest) {
   try {
@@ -22,6 +23,8 @@ export async function POST(req: NextRequest) {
     );
 
     await db.end();
+
+    await sendContactNotification({ name, email, subject: subject ?? '', message });
 
     return NextResponse.json({ ok: true });
   } catch (err) {

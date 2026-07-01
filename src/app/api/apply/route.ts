@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import mysql from 'mysql2/promise';
+import { sendApplicationNotification } from '@/lib/email';
 
 export async function POST(req: NextRequest) {
   try {
@@ -9,7 +10,7 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: 'All fields are required.' }, { status: 400 });
     }
 
-const db = await mysql.createConnection({
+    const db = await mysql.createConnection({
       host: process.env.DB_HOST!,
       user: process.env.DB_USER!,
       password: process.env.DB_PASSWORD!,
@@ -22,6 +23,8 @@ const db = await mysql.createConnection({
     );
 
     await db.end();
+
+    await sendApplicationNotification({ name, email, field });
 
     return NextResponse.json({ ok: true });
   } catch (err) {

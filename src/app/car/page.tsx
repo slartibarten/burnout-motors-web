@@ -1,4 +1,5 @@
 import PageShell from '@/components/PageShell';
+import { getLocale, getT } from '@/lib/i18n';
 
 const specs = [
   ['Engine', '4.0 L twin-turbo V8'],
@@ -12,6 +13,10 @@ const specs = [
 ];
 
 export default function CarPage() {
+  const locale = getLocale();
+  const t = getT(locale);
+  const c = t.car;
+
   return (
     <PageShell>
       {/* HERO */}
@@ -29,7 +34,7 @@ export default function CarPage() {
           background: 'radial-gradient(60% 70% at 50% 30%, rgba(255,61,0,0.18), transparent 64%)',
         }} />
         <div style={{ maxWidth: 'var(--container-max)', margin: '0 auto', position: 'relative' }}>
-          <span className="bm-eyebrow">The machine</span>
+          <span className="bm-eyebrow">{c.eyebrow}</span>
           <h1 style={{
             fontSize: 'clamp(44px, 6vw, 76px)',
             marginTop: '12px',
@@ -38,7 +43,9 @@ export default function CarPage() {
             fontWeight: 800,
             lineHeight: 0.95,
           }}>
-            THE <span style={{ color: 'var(--ember-500)' }}>GT3</span> CAR
+            {c.hero_title.replace('GT3', '')}
+            <span style={{ color: 'var(--ember-500)' }}>GT3</span>
+            {c.hero_title.split('GT3')[1]}
           </h1>
           <p style={{
             fontSize: '18px',
@@ -48,7 +55,7 @@ export default function CarPage() {
             lineHeight: 1.55,
             fontFamily: 'var(--font-text)',
           }}>
-            A full GT3-spec competition car — homologated bodywork, race aero and a student-built drivetrain. The figures below are our targets — we&apos;ll publish real numbers once the car runs.
+            {c.hero_desc}
           </p>
           {/* Car image placeholder */}
           <div style={{
@@ -69,7 +76,7 @@ export default function CarPage() {
       {/* SPEC SHEET */}
       <section style={{ padding: '64px 32px 88px', background: 'var(--ink-1000)', borderTop: '1px solid var(--ink-800)' }}>
         <div style={{ maxWidth: 'var(--container-max)', margin: '0 auto' }}>
-          <span className="bm-eyebrow">Specifications</span>
+          <span className="bm-eyebrow">{c.specs_eyebrow}</span>
           <div style={{
             display: 'grid',
             gridTemplateColumns: 'repeat(2, 1fr)',

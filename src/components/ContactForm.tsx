@@ -4,7 +4,18 @@ import { Input, Button, Card } from './ui';
 
 type State = 'idle' | 'loading' | 'success' | 'error';
 
-export default function ContactForm() {
+type Labels = {
+  title: string; subtitle: string;
+  name_label: string; name_placeholder: string;
+  email_label: string; email_placeholder: string;
+  subject_label: string; subject_placeholder: string;
+  message_label: string; message_placeholder: string;
+  submit: string; submitting: string;
+  success_title: string; success_desc: string;
+  error_generic: string;
+};
+
+export default function ContactForm({ labels }: { labels: Labels }) {
   const [state, setState] = useState<State>('idle');
   const [errorMsg, setErrorMsg] = useState('');
 
@@ -31,7 +42,7 @@ export default function ContactForm() {
       form.reset();
     } else {
       const json = await res.json();
-      setErrorMsg(json.error ?? 'Something went wrong.');
+      setErrorMsg(json.error ?? labels.error_generic);
       setState('error');
     }
   }
@@ -42,10 +53,10 @@ export default function ContactForm() {
         <div style={{ textAlign: 'center', padding: '24px 0' }}>
           <div style={{ fontSize: '32px', marginBottom: '16px' }}>✓</div>
           <h3 style={{ fontSize: '22px', color: 'var(--ink-0)', fontFamily: 'var(--font-display)', fontWeight: 700, marginBottom: '8px' }}>
-            Message sent!
+            {labels.success_title}
           </h3>
           <p style={{ fontSize: '15px', color: 'var(--ink-300)', fontFamily: 'var(--font-text)' }}>
-            We usually reply within a few days.
+            {labels.success_desc}
           </p>
         </div>
       </Card>
@@ -55,15 +66,15 @@ export default function ContactForm() {
   return (
     <Card stripe inverse padding="48px">
       <h3 style={{ fontSize: '24px', color: 'var(--ink-0)', marginBottom: '4px', fontFamily: 'var(--font-display)', fontWeight: 700 }}>
-        Send a message
+        {labels.title}
       </h3>
       <p style={{ fontSize: '14px', color: 'var(--ink-300)', marginTop: 0, marginBottom: '24px', fontFamily: 'var(--font-text)' }}>
-        We usually reply within a few days.
+        {labels.subtitle}
       </p>
       <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '18px' }}>
-        <Input label="Name" placeholder="Your name" name="name" />
-        <Input label="Email" placeholder="you@company.no" type="email" name="email" />
-        <Input label="Subject" placeholder="What is this about?" name="subject" />
+        <Input label={labels.name_label} placeholder={labels.name_placeholder} name="name" />
+        <Input label={labels.email_label} placeholder={labels.email_placeholder} type="email" name="email" />
+        <Input label={labels.subject_label} placeholder={labels.subject_placeholder} name="subject" />
         <label style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
           <span style={{
             fontFamily: 'var(--font-display)',
@@ -72,12 +83,12 @@ export default function ContactForm() {
             letterSpacing: '0.12em',
             textTransform: 'uppercase',
             color: 'var(--ink-400)',
-          }}>Message</span>
+          }}>{labels.message_label}</span>
           <textarea
             rows={6}
             name="message"
             required
-            placeholder="Tell us more…"
+            placeholder={labels.message_placeholder}
             style={{
               fontFamily: 'var(--font-text)',
               fontSize: '15px',
@@ -100,7 +111,7 @@ export default function ContactForm() {
         )}
 
         <Button variant="accent" size="lg" fullWidth type="submit">
-          {state === 'loading' ? 'Sending…' : 'Send message'}
+          {state === 'loading' ? labels.submitting : labels.submit}
         </Button>
       </form>
     </Card>

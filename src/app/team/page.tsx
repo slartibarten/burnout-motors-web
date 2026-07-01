@@ -1,5 +1,6 @@
 import PageShell from '@/components/PageShell';
 import ApplyForm from '@/components/ApplyForm';
+import { getLocale, getT } from '@/lib/i18n';
 
 const members = [
   { name: 'Johar Khalid', role: '' },
@@ -18,6 +19,10 @@ function initials(name: string) {
 }
 
 export default function TeamPage() {
+  const locale = getLocale();
+  const t = getT(locale);
+  const tm = t.team;
+
   return (
     <PageShell>
       {/* HERO */}
@@ -35,7 +40,7 @@ export default function TeamPage() {
           background: 'radial-gradient(50% 70% at 80% 25%, rgba(255,61,0,0.16), transparent 64%)',
         }} />
         <div style={{ maxWidth: 'var(--container-max)', margin: '0 auto', position: 'relative' }}>
-          <span className="bm-eyebrow">Join Burnout Motors</span>
+          <span className="bm-eyebrow">{tm.eyebrow}</span>
           <h1 style={{
             fontSize: 'clamp(40px, 5.4vw, 64px)',
             marginTop: '12px',
@@ -45,7 +50,7 @@ export default function TeamPage() {
             fontWeight: 800,
             lineHeight: 0.95,
           }}>
-            BUILD A RACE CAR. BECOME AN ENGINEER.
+            {tm.hero_title}
           </h1>
           <p style={{
             fontSize: '18px',
@@ -55,7 +60,7 @@ export default function TeamPage() {
             lineHeight: 1.5,
             fontFamily: 'var(--font-text)',
           }}>
-            We recruit students from every faculty at UiO — not only mechanical engineers. If you want to learn by doing, there&apos;s a seat for you.
+            {tm.hero_desc}
           </p>
         </div>
       </section>
@@ -63,7 +68,7 @@ export default function TeamPage() {
       {/* TEAM GRID */}
       <section style={{ padding: '64px 32px', background: 'var(--ink-900)', borderTop: '1px solid var(--ink-700)' }}>
         <div style={{ maxWidth: 'var(--container-max)', margin: '0 auto' }}>
-          <span className="bm-eyebrow">Meet the team</span>
+          <span className="bm-eyebrow">{tm.grid_eyebrow}</span>
           <div style={{
             display: 'grid',
             gridTemplateColumns: 'repeat(4, 1fr)',
@@ -115,7 +120,7 @@ export default function TeamPage() {
       {/* APPLICATION FORM */}
       <section style={{ padding: '72px 32px 96px', background: 'var(--ink-1000)', borderTop: '1px solid var(--ink-800)' }}>
         <div style={{ maxWidth: '720px', margin: '0 auto' }}>
-          <span className="bm-eyebrow">Apply</span>
+          <span className="bm-eyebrow">{tm.apply_eyebrow}</span>
           <h2 style={{
             fontSize: 'clamp(30px, 4vw, 46px)',
             marginTop: '12px',
@@ -123,7 +128,7 @@ export default function TeamPage() {
             fontFamily: 'var(--font-display)',
             fontWeight: 800,
           }}>
-            Apply to join the team
+            {tm.apply_title}
           </h2>
           <p style={{
             fontSize: '17px',
@@ -134,9 +139,9 @@ export default function TeamPage() {
             maxWidth: '52ch',
             fontFamily: 'var(--font-text)',
           }}>
-            Recruitment opens each semester. Tell us who you are and what you study — no prior motorsport experience required, only the will to put in the hours.
+            {tm.apply_desc}
           </p>
-          <ApplyForm />
+          <ApplyForm labels={tm.form} />
         </div>
       </section>
     </PageShell>

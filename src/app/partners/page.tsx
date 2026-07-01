@@ -2,26 +2,13 @@ import PageShell from '@/components/PageShell';
 import Image from 'next/image';
 import Link from 'next/link';
 import { Button, Card } from '@/components/ui';
-
-const tiers = [
-  {
-    name: 'Title',
-    dot: 'var(--ember-500)',
-    perks: ['Naming rights on the car & livery', 'Logo on race suits and transporter', 'Featured across all channels'],
-  },
-  {
-    name: 'Technical',
-    dot: 'var(--ink-200)',
-    perks: ['Component & materials supply', 'Co-engineering with sub-teams', 'Logo placement on the car', 'Case study & data sharing'],
-  },
-  {
-    name: 'Supporter',
-    dot: 'var(--ink-400)',
-    perks: ['Logo on website & socials', 'Team updates & reports', 'Invitations to shakedown days', 'Recruitment access'],
-  },
-];
+import { getLocale, getT } from '@/lib/i18n';
 
 export default function PartnersPage() {
+  const locale = getLocale();
+  const t = getT(locale);
+  const p = t.partners;
+
   return (
     <PageShell>
       {/* HERO */}
@@ -46,7 +33,7 @@ export default function PartnersPage() {
           style={{ position: 'absolute', right: '-40px', top: '50%', transform: 'translateY(-50%)', height: '420px', width: 'auto', opacity: 0.06, pointerEvents: 'none' }}
         />
         <div style={{ maxWidth: 'var(--container-max)', margin: '0 auto', position: 'relative' }}>
-          <span className="bm-eyebrow">Partners</span>
+          <span className="bm-eyebrow">{p.eyebrow}</span>
           <h1 style={{
             fontSize: 'clamp(40px, 5.4vw, 64px)',
             marginTop: '12px',
@@ -56,7 +43,7 @@ export default function PartnersPage() {
             fontWeight: 800,
             lineHeight: 0.95,
           }}>
-            BACK THE NEXT GENERATION OF ENGINEERS
+            {p.hero_title}
           </h1>
           <p style={{
             fontSize: '18px',
@@ -66,10 +53,10 @@ export default function PartnersPage() {
             lineHeight: 1.5,
             fontFamily: 'var(--font-text)',
           }}>
-            Partnering with Burnout Motors puts your brand on a real GT3 programme and connects you with talented UiO students across five faculties.
+            {p.hero_desc}
           </p>
           <div style={{ marginTop: '28px' }}>
-            <Link href="/contact"><Button variant="accent" size="lg">Become a partner</Button></Link>
+            <Link href="/contact"><Button variant="accent" size="lg">{p.cta_become}</Button></Link>
           </div>
         </div>
       </section>
@@ -77,15 +64,15 @@ export default function PartnersPage() {
       {/* CURRENT PARTNERS */}
       <section style={{ background: 'var(--ink-900)', borderTop: '1px solid var(--ink-700)', padding: '56px 32px' }}>
         <div style={{ maxWidth: 'var(--container-max)', margin: '0 auto' }}>
-          <span className="bm-eyebrow" style={{ color: 'var(--ink-200)' }}>Current partners</span>
+          <span className="bm-eyebrow" style={{ color: 'var(--ink-200)' }}>{p.current_eyebrow}</span>
           <div style={{
             display: 'grid',
             gridTemplateColumns: 'repeat(5, 1fr)',
             gap: '12px',
             marginTop: '20px',
           }}>
-            {['PARTNER 01', 'PARTNER 02', 'PARTNER 03', 'PARTNER 04', 'PARTNER 05'].map((p) => (
-              <div key={p} style={{
+            {['PARTNER 01', 'PARTNER 02', 'PARTNER 03', 'PARTNER 04', 'PARTNER 05'].map((pl) => (
+              <div key={pl} style={{
                 height: '96px',
                 display: 'flex',
                 alignItems: 'center',
@@ -97,7 +84,7 @@ export default function PartnersPage() {
                 fontSize: '11px',
                 letterSpacing: '0.1em',
                 color: 'var(--ink-400)',
-              }}>{p}</div>
+              }}>{pl}</div>
             ))}
           </div>
           <p style={{ fontFamily: 'var(--font-mono)', fontSize: '11px', color: 'var(--ink-500)', marginTop: '14px' }}>
@@ -109,12 +96,16 @@ export default function PartnersPage() {
       {/* TIERS */}
       <section style={{ padding: '80px 32px 32px', background: 'var(--ink-1000)', borderTop: '1px solid var(--ink-800)' }}>
         <div style={{ maxWidth: 'var(--container-max)', margin: '0 auto' }}>
-          <span className="bm-eyebrow">Ways to partner</span>
+          <span className="bm-eyebrow">{p.tiers_eyebrow}</span>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '16px', marginTop: '20px' }}>
-            {tiers.map((tier) => (
+            {p.tiers.map((tier, i) => (
               <Card key={tier.name} inverse padding="32px">
                 <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '16px' }}>
-                  <span style={{ width: '10px', height: '10px', borderRadius: '50%', background: tier.dot, display: 'inline-block', flexShrink: 0 }} />
+                  <span style={{
+                    width: '10px', height: '10px', borderRadius: '50%',
+                    background: i === 0 ? 'var(--ember-500)' : i === 1 ? 'var(--ink-200)' : 'var(--ink-400)',
+                    display: 'inline-block', flexShrink: 0,
+                  }} />
                   <h3 style={{ fontSize: '22px', color: 'var(--ink-0)', margin: 0, fontFamily: 'var(--font-display)', fontWeight: 700 }}>{tier.name}</h3>
                 </div>
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
@@ -144,13 +135,13 @@ export default function PartnersPage() {
             }}>
               <div>
                 <h3 style={{ fontSize: '26px', color: 'var(--ink-0)', margin: 0, fontFamily: 'var(--font-display)', fontWeight: 700 }}>
-                  Interested in supporting the team?
+                  {p.cta_title}
                 </h3>
                 <p style={{ fontSize: '15px', color: 'var(--ink-300)', margin: '8px 0 0', fontFamily: 'var(--font-text)' }}>
-                  Get in touch and tell us about your company — we&apos;ll take the conversation from there.
+                  {p.cta_desc}
                 </p>
               </div>
-              <Link href="/contact"><Button variant="accent" size="lg">Get in touch</Button></Link>
+              <Link href="/contact"><Button variant="accent" size="lg">{p.cta_btn}</Button></Link>
             </div>
           </Card>
         </div>

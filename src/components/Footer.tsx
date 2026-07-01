@@ -1,6 +1,8 @@
 import Image from 'next/image';
 
-export default function Footer() {
+type FooterT = { tagline: string; copyright: string };
+
+export default function Footer({ t }: { t: FooterT }) {
   return (
     <footer style={{
       background: 'var(--ink-1000)',
@@ -22,12 +24,12 @@ export default function Footer() {
           <div>
             <Image src="/logos/burnout-wordmark-white.png" alt="Burnout Motors" width={120} height={14} style={{ height: '14px', width: 'auto', marginBottom: '6px', display: 'block' }} />
             <div style={{ fontFamily: 'var(--font-mono)', fontSize: '11px', letterSpacing: '0.04em' }}>
-              Universitetet i Oslo · GT3 · Racing NM
+              {t.tagline}
             </div>
           </div>
         </div>
         <div style={{ fontFamily: 'var(--font-mono)', fontSize: '11px', letterSpacing: '0.04em' }}>
-          © Burnout Motors — Break · fix · retest
+          {t.copyright}
         </div>
       </div>
     </footer>

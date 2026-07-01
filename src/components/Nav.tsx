@@ -2,18 +2,24 @@
 import Link from 'next/link';
 import Image from 'next/image';
 import { usePathname } from 'next/navigation';
+import LanguageSwitcher from './LanguageSwitcher';
 
-const items = [
-  { label: 'Home', href: '/' },
-  { label: 'About', href: '/about' },
-  { label: 'Team', href: '/team' },
-  { label: 'Car', href: '/car' },
-  { label: 'Partners', href: '/partners' },
-  { label: 'Contact', href: '/contact' },
-];
+type NavLabels = {
+  home: string; about: string; team: string; car: string;
+  partners: string; contact: string; join: string;
+};
 
-export default function Nav() {
+export default function Nav({ labels, locale }: { labels: NavLabels; locale: string }) {
   const pathname = usePathname();
+
+  const items = [
+    { label: labels.home, href: '/' },
+    { label: labels.about, href: '/about' },
+    { label: labels.team, href: '/team' },
+    { label: labels.car, href: '/car' },
+    { label: labels.partners, href: '/partners' },
+    { label: labels.contact, href: '/contact' },
+  ];
 
   return (
     <header style={{
@@ -64,7 +70,8 @@ export default function Nav() {
         })}
       </nav>
 
-      <div style={{ flexShrink: 0 }}>
+      <div style={{ display: 'flex', alignItems: 'center', gap: '10px', flexShrink: 0 }}>
+        <LanguageSwitcher current={locale} />
         <Link
           href="/team"
           style={{
@@ -82,7 +89,7 @@ export default function Nav() {
             display: 'inline-block',
           }}
         >
-          Join
+          {labels.join}
         </Link>
       </div>
     </header>

@@ -2,14 +2,13 @@ import PageShell from '@/components/PageShell';
 import Link from 'next/link';
 import Image from 'next/image';
 import { Button, Card } from '@/components/ui';
-
-const values = [
-  ['Learn by doing', 'Theory earns its place only when it touches metal. We build, break and rebuild until it works.'],
-  ['Every faculty', 'Engineers, designers, economists, communicators. A race team needs all of them.'],
-  ['Open to all', 'No prior motorsport experience required — only the will to put in the hours.'],
-];
+import { getLocale, getT } from '@/lib/i18n';
 
 export default function AboutPage() {
+  const locale = getLocale();
+  const t = getT(locale);
+  const a = t.about;
+
   return (
     <PageShell>
       {/* HERO */}
@@ -34,7 +33,7 @@ export default function AboutPage() {
           style={{ position: 'absolute', right: '-40px', bottom: '-60px', height: '360px', width: 'auto', opacity: 0.06, pointerEvents: 'none' }}
         />
         <div style={{ maxWidth: 'var(--container-max)', margin: '0 auto', position: 'relative' }}>
-          <span className="bm-eyebrow">Who we are</span>
+          <span className="bm-eyebrow">{a.eyebrow}</span>
           <h1 style={{
             fontSize: 'clamp(40px, 5.4vw, 64px)',
             marginTop: '12px',
@@ -44,7 +43,7 @@ export default function AboutPage() {
             fontWeight: 800,
             lineHeight: 0.95,
           }}>
-            A STUDENT TEAM BUILDING A REAL GT3 CAR
+            {a.hero_title}
           </h1>
           <p style={{
             fontSize: '18px',
@@ -54,7 +53,7 @@ export default function AboutPage() {
             lineHeight: 1.55,
             fontFamily: 'var(--font-text)',
           }}>
-            Burnout Motors is a student-run engineering project at the University of Oslo. We design, build, test and race a GT3-spec competition car — and develop the people who do it. The car is the goal; the engineers are the point.
+            {a.hero_desc}
           </p>
         </div>
       </section>
@@ -62,7 +61,7 @@ export default function AboutPage() {
       {/* FOUNDED */}
       <section style={{ background: 'var(--ink-900)', borderTop: '1px solid var(--ink-700)', padding: '52px 32px' }}>
         <div style={{ maxWidth: 'var(--container-max)', margin: '0 auto' }}>
-          <span className="bm-eyebrow">Founded</span>
+          <span className="bm-eyebrow">{a.founded_eyebrow}</span>
           <div style={{
             fontFamily: 'var(--font-display)',
             fontWeight: 800,
@@ -86,7 +85,7 @@ export default function AboutPage() {
           alignItems: 'start',
         }}>
           <div>
-            <span className="bm-eyebrow">The story</span>
+            <span className="bm-eyebrow">{a.story_eyebrow}</span>
             <h2 style={{
               fontSize: 'clamp(28px, 3.4vw, 38px)',
               marginTop: '12px',
@@ -95,7 +94,7 @@ export default function AboutPage() {
               fontFamily: 'var(--font-display)',
               fontWeight: 800,
             }}>
-              From a workshop idea to a race programme
+              {a.story_title}
             </h2>
             <div style={{ marginTop: '24px' }}>
               <div style={{
@@ -113,11 +112,11 @@ export default function AboutPage() {
           </div>
           <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
             <p style={{ fontSize: '16px', color: 'var(--ink-300)', lineHeight: 1.65, margin: 0, fontFamily: 'var(--font-text)' }}>
-              We started in 2024 with a simple conviction: students learn engineering fastest when they own a real, hard problem end to end. A GT3 car is exactly that — every discipline, real deadlines, no shortcuts.
+              {a.story_p}
             </p>
             <div style={{ display: 'flex', gap: '12px', marginTop: '8px', flexWrap: 'wrap' }}>
-              <Link href="/team"><Button variant="accent">Meet the team</Button></Link>
-              <Link href="/car"><Button variant="outline">See the car</Button></Link>
+              <Link href="/team"><Button variant="accent">{a.cta_team}</Button></Link>
+              <Link href="/car"><Button variant="outline">{a.cta_car}</Button></Link>
             </div>
           </div>
         </div>
@@ -126,9 +125,9 @@ export default function AboutPage() {
       {/* VALUES */}
       <section style={{ padding: '0 32px 88px', background: 'var(--ink-1000)' }}>
         <div style={{ maxWidth: 'var(--container-max)', margin: '0 auto' }}>
-          <span className="bm-eyebrow">What we stand for</span>
+          <span className="bm-eyebrow">{a.values_eyebrow}</span>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '16px', marginTop: '20px' }}>
-            {values.map(([title, desc]) => (
+            {a.values.map(([title, desc]) => (
               <Card key={title} stripe inverse interactive>
                 <h3 style={{ fontSize: '19px', marginBottom: '8px', color: 'var(--ink-0)', fontFamily: 'var(--font-display)', fontWeight: 700 }}>{title}</h3>
                 <p style={{ margin: 0, fontSize: '15px', color: 'var(--ink-300)', lineHeight: 1.55, fontFamily: 'var(--font-text)' }}>{desc}</p>

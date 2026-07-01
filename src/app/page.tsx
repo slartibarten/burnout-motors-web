@@ -1,6 +1,7 @@
 import PageShell from '@/components/PageShell';
 import Link from 'next/link';
 import { Badge, Button, StatChip, Card } from '@/components/ui';
+import { getLocale, getT } from '@/lib/i18n';
 
 const navCats = [
   ['01', 'THE CAR', '/car'],
@@ -9,13 +10,11 @@ const navCats = [
   ['04', 'CONTACT', '/contact'],
 ];
 
-const missionCards = [
-  ['Design', 'Every subsystem is engineered from first principles — then drawn, simulated and reviewed before a single part is cut.'],
-  ['Build', 'We fabricate, assemble and wire the car ourselves. Hands on metal, not just theory on slides.'],
-  ['Break · fix · retest', 'Test, find the fault, fix it, retest, document. The loop that turns a student into an engineer.'],
-];
-
 export default function HomePage() {
+  const locale = getLocale();
+  const t = getT(locale);
+  const h = t.home;
+
   return (
     <PageShell>
       {/* SPLIT HERO */}
@@ -28,7 +27,6 @@ export default function HomePage() {
         flexDirection: 'column',
         minHeight: 'calc(100vh - 72px)',
       }}>
-        {/* Ember glow */}
         <div className="bm-glow-anim" style={{
           position: 'absolute',
           inset: 0,
@@ -66,8 +64,8 @@ export default function HomePage() {
           }}>
             <div style={{ maxWidth: '600px' }}>
               <div style={{ display: 'flex', gap: '10px', marginBottom: '22px' }}>
-                <Badge tone="accent" variant="solid" shape="pill">GT3</Badge>
-                <Badge tone="neutral" variant="outline" shape="pill">Universitetet i Oslo</Badge>
+                <Badge tone="accent" variant="solid" shape="pill">{h.badge_gt3}</Badge>
+                <Badge tone="neutral" variant="outline" shape="pill">{h.badge_uni}</Badge>
               </div>
               <h1 style={{
                 fontSize: 'clamp(48px, 6vw, 84px)',
@@ -78,7 +76,9 @@ export default function HomePage() {
                 color: 'var(--ink-0)',
                 maxWidth: '15ch',
               }}>
-                NORWAY&apos;S FIRST <span style={{ color: 'var(--ember-500)' }}>GT3</span> STUDENT TEAM
+                {h.hero_title.replace('GT3', '')}
+                <span style={{ color: 'var(--ember-500)' }}>GT3</span>
+                {h.hero_title.split('GT3')[1]}
               </h1>
               <p style={{
                 fontSize: '19px',
@@ -88,15 +88,11 @@ export default function HomePage() {
                 lineHeight: 1.55,
                 fontFamily: 'var(--font-text)',
               }}>
-                We turn theory into real engineering — designing, building, testing and racing a GT3 competition car, and developing the people who do it.
+                {h.hero_desc}
               </p>
               <div style={{ display: 'flex', gap: '14px', marginTop: '34px', flexWrap: 'wrap' }}>
-                <Link href="/car">
-                  <Button variant="accent" size="lg">See the car</Button>
-                </Link>
-                <Link href="/team">
-                  <Button variant="outline" size="lg">Join the team</Button>
-                </Link>
+                <Link href="/car"><Button variant="accent" size="lg">{h.cta_car}</Button></Link>
+                <Link href="/team"><Button variant="outline" size="lg">{h.cta_team}</Button></Link>
               </div>
             </div>
           </div>
@@ -142,7 +138,7 @@ export default function HomePage() {
       {/* MISSION */}
       <section style={{ padding: '88px 32px', background: 'var(--ink-1000)', borderTop: '1px solid var(--ink-800)' }}>
         <div style={{ maxWidth: 'var(--container-max)', margin: '0 auto' }}>
-          <span className="bm-eyebrow">The mission</span>
+          <span className="bm-eyebrow">{h.mission_eyebrow}</span>
           <h2 style={{
             fontSize: 'clamp(30px, 4vw, 44px)',
             marginTop: '12px',
@@ -151,10 +147,10 @@ export default function HomePage() {
             fontFamily: 'var(--font-display)',
             fontWeight: 800,
           }}>
-            A real GT3 car. Built by students. Validated gate by gate.
+            {h.mission_title}
           </h2>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '20px', marginTop: '44px' }}>
-            {missionCards.map(([title, desc]) => (
+            {h.mission_cards.map(([title, desc]) => (
               <Card key={title} stripe inverse interactive>
                 <h3 style={{ fontSize: '20px', marginBottom: '10px', color: 'var(--ink-0)', fontFamily: 'var(--font-display)', fontWeight: 700 }}>{title}</h3>
                 <p style={{ margin: 0, fontSize: '15px', color: 'var(--ink-300)', lineHeight: 1.55, fontFamily: 'var(--font-text)' }}>{desc}</p>
@@ -174,7 +170,6 @@ export default function HomePage() {
           gap: '48px',
           alignItems: 'center',
         }}>
-          {/* Car image placeholder */}
           <div style={{
             width: '100%',
             aspectRatio: '4 / 3',
@@ -187,7 +182,7 @@ export default function HomePage() {
             <span style={{ fontFamily: 'var(--font-mono)', fontSize: '11px', color: 'var(--ink-500)', letterSpacing: '0.1em' }}>GT3_CAR_3Q</span>
           </div>
           <div>
-            <span className="bm-eyebrow">The machine</span>
+            <span className="bm-eyebrow">{h.machine_eyebrow}</span>
             <h2 style={{
               fontSize: 'clamp(28px, 3.6vw, 40px)',
               marginTop: '12px',
@@ -196,10 +191,10 @@ export default function HomePage() {
               fontFamily: 'var(--font-display)',
               fontWeight: 800,
             }}>
-              565 hp of student-built engineering
+              {h.machine_title}
             </h2>
             <p style={{ fontSize: '16px', color: 'var(--ink-300)', lineHeight: 1.6, marginTop: '16px', maxWidth: '46ch', fontFamily: 'var(--font-text)' }}>
-              Homologated bodywork, race aero and a student-built drivetrain. These are our targets — real numbers land once the car runs.
+              {h.machine_desc}
             </p>
             <div style={{ display: 'flex', gap: '44px', flexWrap: 'wrap', marginTop: '28px' }}>
               <StatChip label="Power" value="565" unit="hp" inverse accent />
@@ -207,9 +202,7 @@ export default function HomePage() {
               <StatChip label="Gearbox" value="6" unit="seq" inverse />
             </div>
             <div style={{ marginTop: '30px' }}>
-              <Link href="/car">
-                <Button variant="accent" size="lg">Full spec sheet</Button>
-              </Link>
+              <Link href="/car"><Button variant="accent" size="lg">{h.machine_cta}</Button></Link>
             </div>
           </div>
         </div>

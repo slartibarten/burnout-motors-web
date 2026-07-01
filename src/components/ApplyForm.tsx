@@ -4,7 +4,16 @@ import { Input, Button, Card } from './ui';
 
 type State = 'idle' | 'loading' | 'success' | 'error';
 
-export default function ApplyForm() {
+type Labels = {
+  name_label: string; name_placeholder: string;
+  email_label: string; email_placeholder: string;
+  field_label: string; field_placeholder: string;
+  submit: string; submitting: string;
+  success_title: string; success_desc: string;
+  error_generic: string;
+};
+
+export default function ApplyForm({ labels }: { labels: Labels }) {
   const [state, setState] = useState<State>('idle');
   const [errorMsg, setErrorMsg] = useState('');
 
@@ -30,7 +39,7 @@ export default function ApplyForm() {
       form.reset();
     } else {
       const json = await res.json();
-      setErrorMsg(json.error ?? 'Something went wrong.');
+      setErrorMsg(json.error ?? labels.error_generic);
       setState('error');
     }
   }
@@ -41,10 +50,10 @@ export default function ApplyForm() {
         <div style={{ textAlign: 'center', padding: '24px 0' }}>
           <div style={{ fontSize: '32px', marginBottom: '16px' }}>✓</div>
           <h3 style={{ fontSize: '22px', color: 'var(--ink-0)', fontFamily: 'var(--font-display)', fontWeight: 700, marginBottom: '8px' }}>
-            Application received!
+            {labels.success_title}
           </h3>
           <p style={{ fontSize: '15px', color: 'var(--ink-300)', fontFamily: 'var(--font-text)' }}>
-            We&apos;ll be in touch when recruitment opens next semester.
+            {labels.success_desc}
           </p>
         </div>
       </Card>
@@ -54,9 +63,9 @@ export default function ApplyForm() {
   return (
     <Card stripe inverse padding="48px">
       <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '18px' }}>
-        <Input label="Full name" placeholder="Ola Nordmann" name="name" />
-        <Input label="Email" placeholder="din@epost.no" type="email" name="email" />
-        <Input label="Field of study" placeholder="e.g. Mechanical engineering" name="field" />
+        <Input label={labels.name_label} placeholder={labels.name_placeholder} name="name" />
+        <Input label={labels.email_label} placeholder={labels.email_placeholder} type="email" name="email" />
+        <Input label={labels.field_label} placeholder={labels.field_placeholder} name="field" />
 
         {state === 'error' && (
           <p style={{ fontSize: '14px', color: 'var(--ember-500)', fontFamily: 'var(--font-text)', margin: 0 }}>
@@ -65,7 +74,7 @@ export default function ApplyForm() {
         )}
 
         <Button variant="accent" size="lg" fullWidth type="submit">
-          {state === 'loading' ? 'Submitting…' : 'Submit application'}
+          {state === 'loading' ? labels.submitting : labels.submit}
         </Button>
       </form>
     </Card>

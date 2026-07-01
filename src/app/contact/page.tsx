@@ -1,7 +1,12 @@
 import PageShell from '@/components/PageShell';
 import ContactForm from '@/components/ContactForm';
+import { getLocale, getT } from '@/lib/i18n';
 
 export default function ContactPage() {
+  const locale = getLocale();
+  const t = getT(locale);
+  const c = t.contact;
+
   return (
     <PageShell>
       {/* HERO */}
@@ -19,7 +24,7 @@ export default function ContactPage() {
           background: 'radial-gradient(50% 70% at 22% 30%, rgba(255,61,0,0.15), transparent 62%)',
         }} />
         <div style={{ maxWidth: 'var(--container-max)', margin: '0 auto', position: 'relative' }}>
-          <span className="bm-eyebrow">Get in touch</span>
+          <span className="bm-eyebrow">{c.eyebrow}</span>
           <h1 style={{
             fontSize: 'clamp(44px, 6vw, 76px)',
             marginTop: '12px',
@@ -28,7 +33,7 @@ export default function ContactPage() {
             fontWeight: 800,
             lineHeight: 0.95,
           }}>
-            CONTACT
+            {c.hero_title}
           </h1>
           <p style={{
             fontSize: '18px',
@@ -38,7 +43,7 @@ export default function ContactPage() {
             lineHeight: 1.55,
             fontFamily: 'var(--font-text)',
           }}>
-            Recruiting, partnerships or press — send us a message and we&apos;ll route it to the right people.
+            {c.hero_desc}
           </p>
         </div>
       </section>
@@ -46,7 +51,7 @@ export default function ContactPage() {
       {/* FORM */}
       <section style={{ padding: '64px 32px 96px', background: 'var(--ink-1000)', borderTop: '1px solid var(--ink-800)' }}>
         <div style={{ maxWidth: '720px', margin: '0 auto' }}>
-          <ContactForm />
+          <ContactForm labels={c.form} />
         </div>
       </section>
     </PageShell>

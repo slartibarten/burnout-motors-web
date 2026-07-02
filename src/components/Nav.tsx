@@ -38,9 +38,8 @@ export default function Nav({ labels, locale }: { labels: NavLabels; locale: str
       borderTop: '2px solid var(--ember-500)',
       borderBottom: '1px solid var(--ink-700)',
     }}>
-      <Link href="/" style={{ display: 'flex', alignItems: 'center', gap: '12px', flexShrink: 0 }}>
-        <Image src="/logos/burnout-tiger-white.png" alt="" width={34} height={34} style={{ height: '34px', width: 'auto' }} />
-        <Image src="/logos/burnout-wordmark-white.png" alt="Burnout Motors" width={120} height={15} style={{ height: '15px', width: 'auto' }} />
+      <Link href="/" style={{ display: 'flex', alignItems: 'center', flexShrink: 0 }}>
+        <Image src="/logos/burnout-lockup-white.png" alt="Burnout Motors" width={210} height={44} style={{ height: '38px', width: 'auto' }} />
       </Link>
 
       <nav style={{ display: 'flex', alignItems: 'center', gap: '2px' }}>

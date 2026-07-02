@@ -2,7 +2,6 @@
 import { useEffect, useRef, useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
-import { usePathname } from 'next/navigation';
 import LanguageSwitcher from './LanguageSwitcher';
 
 type NavLabels = {
@@ -10,22 +9,44 @@ type NavLabels = {
   partners: string; contact: string; join: string;
 };
 
+const SECTION_IDS = ['hjem', 'om-oss', 'bilen', 'team', 'partnere', 'kontakt'];
+
 export default function Nav({ labels, locale }: { labels: NavLabels; locale: string }) {
-  const pathname = usePathname();
   const [open, setOpen] = useState(false);
+  const [active, setActive] = useState('hjem');
   const overlayRef = useRef<HTMLDivElement>(null);
 
   const items = [
-    { label: labels.home, href: '/' },
-    { label: labels.about, href: '/about' },
-    { label: labels.team, href: '/team' },
-    { label: labels.car, href: '/car' },
-    { label: labels.partners, href: '/partners' },
-    { label: labels.contact, href: '/contact' },
+    { label: labels.home, id: 'hjem' },
+    { label: labels.about, id: 'om-oss' },
+    { label: labels.car, id: 'bilen' },
+    { label: labels.team, id: 'team' },
+    { label: labels.partners, id: 'partnere' },
+    { label: labels.contact, id: 'kontakt' },
   ];
 
-  // Lukk ved rutebytte
-  useEffect(() => { setOpen(false); }, [pathname]);
+  // Scrollspy: siste seksjon med topp over nav-høyden er aktiv
+  useEffect(() => {
+    let raf = 0;
+    const compute = () => {
+      let current = 'hjem';
+      for (const id of SECTION_IDS) {
+        const el = document.getElementById(id);
+        if (el && el.getBoundingClientRect().top <= 120) current = id;
+      }
+      setActive(current);
+    };
+    const onScroll = () => {
+      cancelAnimationFrame(raf);
+      raf = requestAnimationFrame(compute);
+    };
+    compute();
+    window.addEventListener('scroll', onScroll, { passive: true });
+    return () => {
+      window.removeEventListener('scroll', onScroll);
+      cancelAnimationFrame(raf);
+    };
+  }, []);
 
   // Escape, scroll-lås og fokus inn i menyen
   useEffect(() => {
@@ -50,34 +71,39 @@ export default function Nav({ labels, locale }: { labels: NavLabels; locale: str
     };
   }, [open]);
 
-  const linkClass = (active: boolean) =>
+  const linkClass = (isActive: boolean) =>
     `font-[family-name:var(--font-display)] font-bold text-[13px] tracking-[0.07em] uppercase whitespace-nowrap px-3 py-2.5 rounded transition-colors duration-150 no-underline ${
-      active ? 'text-[var(--ember-400)]' : 'text-[var(--ink-200)] hover:text-[var(--ink-0)]'
+      isActive ? 'text-[var(--ember-400)]' : 'text-[var(--ink-200)] hover:text-[var(--ink-0)]'
     }`;
 
   return (
     <header className="sticky top-0 z-20 flex h-[72px] items-center justify-between gap-5 border-b border-[var(--ink-700)] border-t-2 border-t-[var(--ember-500)] bg-[rgba(5,5,6,0.82)] px-5 backdrop-blur-md lg:px-7">
-      <Link href="/" className="flex shrink-0 items-center">
+      <Link href="/#hjem" className="flex shrink-0 items-center">
         <Image src="/logos/burnout-lockup-white.png" alt="Burnout Motors" width={210} height={44} className="h-[38px] w-auto" />
       </Link>
 
       {/* Desktop */}
       <nav className="hidden items-center gap-0.5 lg:flex" aria-label="Hovedmeny">
         {items.map((item) => (
-          <Link key={item.href} href={item.href} className={linkClass(pathname === item.href)}>
+          <a
+            key={item.id}
+            href={`#${item.id}`}
+            className={linkClass(active === item.id)}
+            aria-current={active === item.id ? 'true' : undefined}
+          >
             {item.label}
-          </Link>
+          </a>
         ))}
       </nav>
 
       <div className="hidden shrink-0 items-center gap-2.5 lg:flex">
         <LanguageSwitcher current={locale} />
-        <Link
-          href="/team#apply"
+        <a
+          href="#apply"
           className="inline-block rounded bg-[var(--ember-500)] px-4 py-2 font-[family-name:var(--font-display)] text-[13px] font-bold uppercase tracking-[0.06em] text-[var(--ink-0)] no-underline transition-colors duration-150 hover:bg-[var(--ember-400)]"
         >
           {labels.join}
-        </Link>
+        </a>
       </div>
 
       {/* Hamburger */}
@@ -103,16 +129,17 @@ export default function Nav({ labels, locale }: { labels: NavLabels; locale: str
         >
           <nav className="flex flex-col gap-1" aria-label="Mobilmeny">
             {items.map((item, i) => (
-              <Link
-                key={item.href}
-                href={item.href}
+              <a
+                key={item.id}
+                href={`#${item.id}`}
+                onClick={() => setOpen(false)}
                 className={`bm-menu-item border-b border-[var(--ink-800)] py-4 font-[family-name:var(--font-display)] text-[22px] font-bold uppercase tracking-[0.06em] no-underline ${
-                  pathname === item.href ? 'text-[var(--ember-400)]' : 'text-[var(--ink-0)]'
+                  active === item.id ? 'text-[var(--ember-400)]' : 'text-[var(--ink-0)]'
                 }`}
                 style={{ animationDelay: `${i * 60}ms` }}
               >
                 {item.label}
-              </Link>
+              </a>
             ))}
           </nav>
           <div
@@ -120,12 +147,13 @@ export default function Nav({ labels, locale }: { labels: NavLabels; locale: str
             style={{ animationDelay: `${items.length * 60}ms` }}
           >
             <LanguageSwitcher current={locale} />
-            <Link
-              href="/team#apply"
+            <a
+              href="#apply"
+              onClick={() => setOpen(false)}
               className="inline-block rounded bg-[var(--ember-500)] px-6 py-3.5 font-[family-name:var(--font-display)] text-[14px] font-bold uppercase tracking-[0.06em] text-[var(--ink-0)] no-underline"
             >
               {labels.join}
-            </Link>
+            </a>
           </div>
         </div>
       )}

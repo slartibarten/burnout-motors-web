@@ -59,6 +59,12 @@ html {
   scroll-behavior: smooth;
 }
 
+/* Ankerseksjoner skal ikke gjemmes bak sticky-nav ved scroll-til */
+section[id],
+div[id='apply'] {
+  scroll-margin-top: 72px;
+}
+
 body {
   background: var(--ink-1000);
   color: var(--ink-0);

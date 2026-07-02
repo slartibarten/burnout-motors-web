@@ -1,5 +1,6 @@
 'use client';
 import React from 'react';
+import Link from 'next/link';
 
 // Button
 type ButtonVariant = 'accent' | 'outline' | 'ghost';
@@ -12,6 +13,7 @@ export function Button({
   children,
   onClick,
   type = 'button',
+  href,
   style,
 }: {
   variant?: ButtonVariant;
@@ -20,6 +22,7 @@ export function Button({
   children: React.ReactNode;
   onClick?: () => void;
   type?: 'button' | 'submit';
+  href?: string;
   style?: React.CSSProperties;
 }) {
   const sizes: Record<ButtonSize, React.CSSProperties> = {
@@ -34,28 +37,52 @@ export function Button({
     ghost: { background: 'transparent', color: 'var(--ink-200)', border: '1.5px solid var(--ink-700)' },
   };
 
+  const shared: React.CSSProperties = {
+    fontFamily: 'var(--font-display)',
+    fontWeight: 700,
+    letterSpacing: '0.06em',
+    textTransform: 'uppercase',
+    borderRadius: 'var(--radius-md)',
+    cursor: 'pointer',
+    transition: 'background var(--dur-fast), color var(--dur-fast), border-color var(--dur-fast)',
+    display: 'inline-flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    width: fullWidth ? '100%' : undefined,
+    textDecoration: 'none',
+    ...sizes[size],
+    ...variants[variant],
+    ...style,
+  };
+
+  function hoverIn(el: HTMLElement) {
+    if (variant === 'accent') el.style.background = 'var(--ember-400)';
+    else el.style.background = 'rgba(255,255,255,0.12)';
+  }
+  function hoverOut(el: HTMLElement) {
+    el.style.background = variant === 'accent' ? 'var(--ember-500)' : 'transparent';
+  }
+
+  if (href) {
+    return (
+      <Link
+        href={href}
+        style={shared}
+        onMouseEnter={(e) => hoverIn(e.currentTarget)}
+        onMouseLeave={(e) => hoverOut(e.currentTarget)}
+      >
+        {children}
+      </Link>
+    );
+  }
+
   return (
     <button
       type={type}
       onClick={onClick}
-      style={{
-        fontFamily: 'var(--font-display)',
-        fontWeight: 700,
-        letterSpacing: '0.06em',
-        textTransform: 'uppercase',
-        borderRadius: 'var(--radius-md)',
-        cursor: 'pointer',
-        transition: 'opacity var(--dur-fast)',
-        display: 'inline-flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        width: fullWidth ? '100%' : undefined,
-        ...sizes[size],
-        ...variants[variant],
-        ...style,
-      }}
-      onMouseEnter={(e) => { (e.currentTarget as HTMLButtonElement).style.opacity = '0.85'; }}
-      onMouseLeave={(e) => { (e.currentTarget as HTMLButtonElement).style.opacity = '1'; }}
+      style={shared}
+      onMouseEnter={(e) => hoverIn(e.currentTarget)}
+      onMouseLeave={(e) => hoverOut(e.currentTarget)}
     >
       {children}
     </button>

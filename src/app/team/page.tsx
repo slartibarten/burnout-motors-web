@@ -118,7 +118,7 @@ export default function TeamPage() {
       </section>
 
       {/* APPLICATION FORM */}
-      <section style={{ padding: '72px 32px 96px', background: 'var(--ink-1000)', borderTop: '1px solid var(--ink-800)' }}>
+      <section id="apply" style={{ padding: '72px 32px 96px', background: 'var(--ink-1000)', borderTop: '1px solid var(--ink-800)', scrollMarginTop: '72px' }}>
         <div style={{ maxWidth: '720px', margin: '0 auto' }}>
           <span className="bm-eyebrow">{tm.apply_eyebrow}</span>
           <h2 style={{

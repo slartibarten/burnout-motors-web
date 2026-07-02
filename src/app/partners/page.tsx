@@ -7,9 +7,9 @@ import { Button, Card } from '@/components/ui';
 import { getLocale, getT } from '@/lib/i18n';
 
 const partners = [
-  { name: 'Ignite', logo: '/logos/partners/ignite.png' },
-  { name: 'Sparebankstiftelsen DNB', logo: '/logos/partners/sparebankstiftelsen.png' },
-  { name: 'Universitetet i Oslo', logo: '/logos/partners/uio.png' },
+  { name: 'Ignite', logo: '/logos/partners/ignite.png', wide: true },
+  { name: 'Sparebankstiftelsen DNB', logo: '/logos/partners/sparebankstiftelsen.png', wide: false },
+  { name: 'Universitetet i Oslo', logo: '/logos/partners/uio.png', wide: false },
 ];
 
 export default function PartnersPage() {
@@ -83,11 +83,11 @@ export default function PartnersPage() {
               const hasLogo = existsSync(join(process.cwd(), 'public', partner.logo));
               return (
                 <div key={partner.name} style={{
-                  height: '132px',
+                  height: '150px',
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center',
-                  padding: '24px 28px',
+                  padding: partner.wide ? '20px 24px' : '24px 26px',
                   border: '1px solid var(--ink-700)',
                   borderRadius: 'var(--radius-lg)',
                   background: 'var(--ink-50)',

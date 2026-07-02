@@ -47,8 +47,10 @@ const no = {
   car: {
     eyebrow: 'Maskinen',
     hero_title: 'GT3-BILEN',
-    hero_desc: 'Et fullt GT3-spesifikasjonskjøretøy — homologert karosseri, raceearo og et studentbygd drivverk. Tallene nedenfor er våre mål — vi publiserer ekte tall når bilen kjører.',
+    hero_desc: 'Et fullt GT3-spesifikasjonskjøretøy — homologert karosseri, race-aero og et studentbygd drivverk. Bygget, testet og kjørt av studenter.',
     specs_eyebrow: 'Spesifikasjoner',
+    video_eyebrow: 'I bevegelse',
+    video_title: 'Bilen starter på Frederikke plass',
   },
   team: {
     eyebrow: 'Bli med i Burnout Motors',

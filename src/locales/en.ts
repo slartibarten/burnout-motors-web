@@ -49,8 +49,10 @@ const en: Translations = {
   car: {
     eyebrow: 'The machine',
     hero_title: 'THE GT3 CAR',
-    hero_desc: "A full GT3-spec competition car — homologated bodywork, race aero and a student-built drivetrain. The figures below are our targets — we'll publish real numbers once the car runs.",
+    hero_desc: 'A full GT3-spec competition car — homologated bodywork, race aero and a student-built drivetrain. Built, tested and raced by students.',
     specs_eyebrow: 'Specifications',
+    video_eyebrow: 'In motion',
+    video_title: 'The car starting up at Frederikke plass',
   },
   team: {
     eyebrow: 'Join Burnout Motors',

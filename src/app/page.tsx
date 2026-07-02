@@ -1,5 +1,6 @@
 import PageShell from '@/components/PageShell';
 import Link from 'next/link';
+import Image from 'next/image';
 import { Badge, Button, StatChip, Card } from '@/components/ui';
 import { getLocale, getT } from '@/lib/i18n';
 
@@ -34,7 +35,7 @@ export default function HomePage() {
           background: 'radial-gradient(58% 60% at 70% 44%, rgba(255,61,0,0.26) 0%, rgba(255,61,0,0.12) 32%, transparent 68%)',
         }} />
 
-        {/* Car image placeholder */}
+        {/* Car hero image */}
         <div style={{
           position: 'absolute',
           right: '-72px',
@@ -43,13 +44,19 @@ export default function HomePage() {
           width: '56%',
           height: '70%',
           zIndex: 2,
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          border: '1px dashed var(--ink-700)',
           borderRadius: 'var(--radius-lg)',
+          overflow: 'hidden',
+          maskImage: 'linear-gradient(to right, transparent 0%, black 22%)',
+          WebkitMaskImage: 'linear-gradient(to right, transparent 0%, black 22%)',
         }}>
-          <span style={{ fontFamily: 'var(--font-mono)', fontSize: '11px', color: 'var(--ink-500)', letterSpacing: '0.1em' }}>GT3_CAR_HERO</span>
+          <Image
+            src="/images/car-frederikke.jpg"
+            alt="Burnout Motors GT3-bil på Frederikke plass"
+            fill
+            priority
+            sizes="56vw"
+            style={{ objectFit: 'cover' }}
+          />
         </div>
 
         {/* Hero content */}
@@ -171,15 +178,20 @@ export default function HomePage() {
           alignItems: 'center',
         }}>
           <div style={{
+            position: 'relative',
             width: '100%',
             aspectRatio: '4 / 3',
-            border: '1px dashed var(--ink-700)',
+            border: '1px solid var(--ink-700)',
             borderRadius: 'var(--radius-lg)',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
+            overflow: 'hidden',
           }}>
-            <span style={{ fontFamily: 'var(--font-mono)', fontSize: '11px', color: 'var(--ink-500)', letterSpacing: '0.1em' }}>GT3_CAR_3Q</span>
+            <Image
+              src="/images/motor-test.jpg"
+              alt="Motortest på Burnout Motors GT3-bil"
+              fill
+              sizes="(max-width: 900px) 100vw, 50vw"
+              style={{ objectFit: 'cover' }}
+            />
           </div>
           <div>
             <span className="bm-eyebrow">{h.machine_eyebrow}</span>
@@ -202,7 +214,7 @@ export default function HomePage() {
               <StatChip label="Gearbox" value="6" unit="seq" inverse />
             </div>
             <div style={{ marginTop: '30px' }}>
-              <Link href="/car"><Button variant="accent" size="lg">{h.machine_cta}</Button></Link>
+              <Link href="/car"><Button variant="accent" size="lg">{h.cta_car}</Button></Link>
             </div>
           </div>
         </div>

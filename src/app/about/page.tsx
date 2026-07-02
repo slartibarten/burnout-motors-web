@@ -98,15 +98,20 @@ export default function AboutPage() {
             </h2>
             <div style={{ marginTop: '24px' }}>
               <div style={{
+                position: 'relative',
                 width: '100%',
                 aspectRatio: '16 / 10',
-                border: '1px dashed var(--ink-700)',
+                border: '1px solid var(--ink-700)',
                 borderRadius: 'var(--radius-lg)',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
+                overflow: 'hidden',
               }}>
-                <span style={{ fontFamily: 'var(--font-mono)', fontSize: '11px', color: 'var(--ink-500)', letterSpacing: '0.1em' }}>TEAM_WORKSHOP</span>
+                <Image
+                  src="/images/team-jobber.jpg"
+                  alt="Burnout Motors-teamet jobber i verkstedet"
+                  fill
+                  sizes="(max-width: 900px) 100vw, 50vw"
+                  style={{ objectFit: 'cover' }}
+                />
               </div>
             </div>
           </div>

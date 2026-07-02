@@ -1,16 +1,6 @@
 import PageShell from '@/components/PageShell';
+import Image from 'next/image';
 import { getLocale, getT } from '@/lib/i18n';
-
-const specs = [
-  ['Engine', '4.0 L twin-turbo V8'],
-  ['Power', '565 hp @ 8 650 rpm'],
-  ['Torque', '700 Nm'],
-  ['Gearbox', '6-speed sequential'],
-  ['Weight', '1 245 kg'],
-  ['Aero', 'Adjustable rear wing'],
-  ['Tyres', 'Slick · 310/710 R18'],
-  ['Class', 'GT3'],
-];
 
 export default function CarPage() {
   const locale = getLocale();
@@ -57,64 +47,57 @@ export default function CarPage() {
           }}>
             {c.hero_desc}
           </p>
-          {/* Car image placeholder */}
+          {/* Car hero image */}
           <div style={{
+            position: 'relative',
             marginTop: '40px',
             width: '100%',
             aspectRatio: '21 / 9',
-            border: '1px dashed var(--ink-700)',
-            borderRadius: 'var(--radius-lg)',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-          }}>
-            <span style={{ fontFamily: 'var(--font-mono)', fontSize: '11px', color: 'var(--ink-500)', letterSpacing: '0.1em' }}>GT3_CAR_HERO — 21:9 hero shot</span>
-          </div>
-        </div>
-      </section>
-
-      {/* SPEC SHEET */}
-      <section style={{ padding: '64px 32px 88px', background: 'var(--ink-1000)', borderTop: '1px solid var(--ink-800)' }}>
-        <div style={{ maxWidth: 'var(--container-max)', margin: '0 auto' }}>
-          <span className="bm-eyebrow">{c.specs_eyebrow}</span>
-          <div style={{
-            display: 'grid',
-            gridTemplateColumns: 'repeat(2, 1fr)',
-            gap: 0,
-            marginTop: '20px',
             border: '1px solid var(--ink-700)',
             borderRadius: 'var(--radius-lg)',
             overflow: 'hidden',
           }}>
-            {specs.map(([key, value], i) => (
-              <div
-                key={key}
-                style={{
-                  display: 'flex',
-                  justifyContent: 'space-between',
-                  alignItems: 'center',
-                  padding: '22px 26px',
-                  borderBottom: i < specs.length - 2 ? '1px solid var(--ink-700)' : undefined,
-                  borderRight: i % 2 === 0 ? '1px solid var(--ink-700)' : undefined,
-                  background: 'var(--ink-900)',
-                }}
-              >
-                <span style={{
-                  fontFamily: 'var(--font-display)',
-                  fontWeight: 700,
-                  fontSize: '12px',
-                  letterSpacing: '0.12em',
-                  textTransform: 'uppercase',
-                  color: 'var(--ink-400)',
-                }}>{key}</span>
-                <span style={{
-                  fontFamily: 'var(--font-mono)',
-                  fontSize: '16px',
-                  color: 'var(--ink-0)',
-                  fontWeight: 700,
-                }}>{value}</span>
-              </div>
-            ))}
+            <Image
+              src="/images/car-frederikke.jpg"
+              alt="Burnout Motors GT3-bil på Frederikke plass"
+              fill
+              priority
+              sizes="(max-width: 1280px) 100vw, 1280px"
+              style={{ objectFit: 'cover' }}
+            />
+          </div>
+        </div>
+      </section>
+
+      {/* VIDEO */}
+      <section style={{ padding: '64px 32px 88px', background: 'var(--ink-1000)', borderTop: '1px solid var(--ink-800)' }}>
+        <div style={{ maxWidth: 'var(--container-max)', margin: '0 auto' }}>
+          <span className="bm-eyebrow">{c.video_eyebrow}</span>
+          <h2 style={{
+            fontSize: 'clamp(24px, 3vw, 34px)',
+            marginTop: '12px',
+            marginBottom: '24px',
+            color: 'var(--ink-0)',
+            maxWidth: '20ch',
+            fontFamily: 'var(--font-display)',
+            fontWeight: 800,
+          }}>
+            {c.video_title}
+          </h2>
+          <div style={{
+            position: 'relative',
+            width: '100%',
+            borderRadius: 'var(--radius-lg)',
+            overflow: 'hidden',
+            border: '1px solid var(--ink-700)',
+          }}>
+            <video
+              src="/images/bilen-starter.mp4"
+              controls
+              playsInline
+              preload="metadata"
+              style={{ width: '100%', display: 'block' }}
+            />
           </div>
         </div>
       </section>

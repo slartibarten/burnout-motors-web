@@ -87,16 +87,19 @@ export default function CarPage() {
           <div style={{
             position: 'relative',
             width: '100%',
+            maxWidth: '380px',
+            margin: '0 auto',
             borderRadius: 'var(--radius-lg)',
             overflow: 'hidden',
             border: '1px solid var(--ink-700)',
+            background: 'var(--ink-900)',
           }}>
             <video
               src="/images/bilen-starter.mp4"
               controls
               playsInline
               preload="metadata"
-              style={{ width: '100%', display: 'block' }}
+              style={{ width: '100%', maxHeight: '70vh', display: 'block' }}
             />
           </div>
         </div>

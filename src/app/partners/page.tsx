@@ -1,8 +1,16 @@
+import { existsSync } from 'fs';
+import { join } from 'path';
 import PageShell from '@/components/PageShell';
 import Image from 'next/image';
 import Link from 'next/link';
 import { Button, Card } from '@/components/ui';
 import { getLocale, getT } from '@/lib/i18n';
+
+const partners = [
+  { name: 'Ignite', logo: '/logos/partners/ignite.png' },
+  { name: 'Sparebankstiftelsen DNB', logo: '/logos/partners/sparebankstiftelsen.png' },
+  { name: 'Universitetet i Oslo', logo: '/logos/partners/uio.png' },
+];
 
 export default function PartnersPage() {
   const locale = getLocale();
@@ -67,29 +75,47 @@ export default function PartnersPage() {
           <span className="bm-eyebrow" style={{ color: 'var(--ink-200)' }}>{p.current_eyebrow}</span>
           <div style={{
             display: 'grid',
-            gridTemplateColumns: 'repeat(5, 1fr)',
-            gap: '12px',
+            gridTemplateColumns: 'repeat(3, 1fr)',
+            gap: '16px',
             marginTop: '20px',
           }}>
-            {['PARTNER 01', 'PARTNER 02', 'PARTNER 03', 'PARTNER 04', 'PARTNER 05'].map((pl) => (
-              <div key={pl} style={{
-                height: '96px',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                border: '1px solid var(--ink-700)',
-                borderRadius: 'var(--radius-md)',
-                background: 'repeating-linear-gradient(135deg, var(--ink-900) 0 8px, var(--ink-1000) 8px 16px)',
-                fontFamily: 'var(--font-mono)',
-                fontSize: '11px',
-                letterSpacing: '0.1em',
-                color: 'var(--ink-400)',
-              }}>{pl}</div>
-            ))}
+            {partners.map((partner) => {
+              const hasLogo = existsSync(join(process.cwd(), 'public', partner.logo));
+              return (
+                <div key={partner.name} style={{
+                  height: '132px',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  padding: '24px 28px',
+                  border: '1px solid var(--ink-700)',
+                  borderRadius: 'var(--radius-lg)',
+                  background: 'var(--ink-50)',
+                }}>
+                  {hasLogo ? (
+                    <div style={{ position: 'relative', width: '100%', height: '100%' }}>
+                      <Image
+                        src={partner.logo}
+                        alt={partner.name}
+                        fill
+                        sizes="(max-width: 900px) 33vw, 380px"
+                        style={{ objectFit: 'contain' }}
+                      />
+                    </div>
+                  ) : (
+                    <span style={{
+                      fontFamily: 'var(--font-display)',
+                      fontWeight: 800,
+                      fontSize: '22px',
+                      letterSpacing: '0.02em',
+                      color: 'var(--ink-1000)',
+                      textAlign: 'center',
+                    }}>{partner.name}</span>
+                  )}
+                </div>
+              );
+            })}
           </div>
-          <p style={{ fontFamily: 'var(--font-mono)', fontSize: '11px', color: 'var(--ink-500)', marginTop: '14px' }}>
-            Drop partner logos here
-          </p>
         </div>
       </section>
 

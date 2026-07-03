@@ -1,6 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server';
 
-const BYPASS_TOKEN = 'burnout-preview-2025';
+// Set PREVIEW_TOKEN in the environment (Hostinger + .env.local). If unset, no
+// bypass is possible and maintenance mode stays on for everyone (fail-closed).
+const BYPASS_TOKEN = process.env.PREVIEW_TOKEN;
 const MAINTENANCE_PATH = '/maintenance';
 
 export function middleware(req: NextRequest) {
@@ -19,13 +21,13 @@ export function middleware(req: NextRequest) {
 
   // Allow through if bypass cookie is set
   const bypass = req.cookies.get('bm_preview')?.value;
-  if (bypass === BYPASS_TOKEN) {
+  if (BYPASS_TOKEN && bypass === BYPASS_TOKEN) {
     return NextResponse.next();
   }
 
   // Allow through if bypass token is in query string, and set cookie
   const token = req.nextUrl.searchParams.get('preview');
-  if (token === BYPASS_TOKEN) {
+  if (BYPASS_TOKEN && token === BYPASS_TOKEN) {
     const res = NextResponse.redirect(new URL(pathname, req.url));
     res.cookies.set('bm_preview', BYPASS_TOKEN, { maxAge: 60 * 60 * 8 }); // 8 hours
     return res;

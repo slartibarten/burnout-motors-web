@@ -29,6 +29,7 @@ export default function ContactForm({ labels }: { labels: Labels }) {
       email:   (form.elements.namedItem('email')   as HTMLInputElement).value,
       subject: (form.elements.namedItem('subject') as HTMLInputElement).value,
       message: (form.elements.namedItem('message') as HTMLTextAreaElement).value,
+      website: (form.elements.namedItem('website') as HTMLInputElement)?.value ?? '',
     };
 
     const res = await fetch('/api/contact', {
@@ -72,6 +73,10 @@ export default function ContactForm({ labels }: { labels: Labels }) {
         {labels.subtitle}
       </p>
       <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '18px' }}>
+        {/* Honeypot — hidden from users, catches bots. Do not remove. */}
+        <div aria-hidden="true" style={{ position: 'absolute', left: '-9999px', width: 1, height: 1, overflow: 'hidden' }}>
+          <input type="text" name="website" tabIndex={-1} autoComplete="off" />
+        </div>
         <Input label={labels.name_label} placeholder={labels.name_placeholder} name="name" />
         <Input label={labels.email_label} placeholder={labels.email_placeholder} type="email" name="email" />
         <Input label={labels.subject_label} placeholder={labels.subject_placeholder} name="subject" />

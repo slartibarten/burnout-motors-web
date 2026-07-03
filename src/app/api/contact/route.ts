@@ -1,36 +1,56 @@
 import { NextRequest, NextResponse } from 'next/server';
-import mysql from 'mysql2/promise';
+import { createDbConnection } from '@/lib/db';
 import { sendContactNotification } from '@/lib/email';
+import { rateLimit, getClientIp } from '@/lib/rate-limit';
+import { cleanString, cleanOptionalString, isValidEmail } from '@/lib/validation';
 
 export async function POST(req: NextRequest) {
   try {
-    const { name, email, subject, message } = await req.json();
-
-    if (!name || !email || !message) {
-      return NextResponse.json({ error: 'Name, email and message are required.' }, { status: 400 });
+    if (!rateLimit(getClientIp(req))) {
+      return NextResponse.json({ error: 'For mange forsøk. Prøv igjen om litt.' }, { status: 429 });
     }
 
-    const db = await mysql.createConnection({
-      host: process.env.DB_HOST!,
-      user: process.env.DB_USER!,
-      password: process.env.DB_PASSWORD!,
-      database: process.env.DB_NAME!,
-    });
+    const body = await req.json();
 
-    await db.execute(
-      'INSERT INTO contact_submissions (name, email, subject, message) VALUES (?, ?, ?, ?)',
-      [name, email, subject ?? '', message]
-    );
+    // Honeypot: the "website" field is hidden from real users. If it's filled,
+    // it's a bot — pretend success so it doesn't retry, but do nothing.
+    if (typeof body.website === 'string' && body.website.trim() !== '') {
+      return NextResponse.json({ ok: true });
+    }
 
-    await db.end();
+    const name = cleanString(body.name, 255);
+    const email = cleanString(body.email, 254);
+    const message = cleanString(body.message, 5000);
+    const subject = cleanOptionalString(body.subject, 255);
 
-    sendContactNotification({ name, email, subject: subject ?? '', message }).catch((err) =>
+    if (!name || !email || !message) {
+      return NextResponse.json({ error: 'Navn, e-post og melding er påkrevd.' }, { status: 400 });
+    }
+    if (subject === null) {
+      return NextResponse.json({ error: 'Ugyldig emne.' }, { status: 400 });
+    }
+    if (!isValidEmail(email)) {
+      return NextResponse.json({ error: 'Ugyldig e-postadresse.' }, { status: 400 });
+    }
+
+    const db = await createDbConnection();
+
+    try {
+      await db.execute(
+        'INSERT INTO contact_submissions (name, email, subject, message) VALUES (?, ?, ?, ?)',
+        [name, email, subject, message]
+      );
+    } finally {
+      await db.end();
+    }
+
+    sendContactNotification({ name, email, subject, message }).catch((err) =>
       console.error('Email notification failed:', err)
     );
 
     return NextResponse.json({ ok: true });
   } catch (err) {
     console.error('Contact form error:', err);
-    return NextResponse.json({ error: 'Something went wrong. Please try again.' }, { status: 500 });
+    return NextResponse.json({ error: 'Noe gikk galt. Prøv igjen.' }, { status: 500 });
   }
 }

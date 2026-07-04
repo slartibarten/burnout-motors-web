@@ -17,12 +17,12 @@
   --ink-50:   #F3F3F5;
   --ink-0:    #FFFFFF;
 
-  --ember-700: #B82A00;
-  --ember-600: #E03400;
-  --ember-500: #FF3D00;
-  --ember-400: #FF6326;
-  --ember-300: #FF8A5C;
-  --ember-100: #FFE2D6;
+  --ember-700: #A30400;
+  --ember-600: #C50500;
+  --ember-500: #E10600;
+  --ember-400: #FF443A;
+  --ember-300: #FF8078;
+  --ember-100: #FFDAD6;
 
   /* --font-display/--font-text/--font-mono settes av next/font i layout.tsx */
 
@@ -87,7 +87,7 @@ body {
   font-size: 11px;
   letter-spacing: 0.18em;
   text-transform: uppercase;
-  color: var(--ember-400); /* ember-500 på svart er 3.9:1 — under AA for liten tekst */
+  color: var(--ember-400); /* ember-500 på svart er ~4.2:1 — under AA for liten tekst */
   display: block;
 }
 

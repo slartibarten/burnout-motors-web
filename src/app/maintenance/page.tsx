@@ -26,7 +26,7 @@ export default function MaintenancePage() {
         position: 'fixed',
         inset: 0,
         pointerEvents: 'none',
-        background: 'radial-gradient(50% 60% at 50% 50%, rgba(255,61,0,0.18) 0%, transparent 70%)',
+        background: 'radial-gradient(50% 60% at 50% 50%, rgba(225,6,0,0.18) 0%, transparent 70%)',
       }} />
 
       <div style={{ position: 'relative', textAlign: 'center', maxWidth: '560px' }}>

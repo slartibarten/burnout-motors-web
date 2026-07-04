@@ -39,7 +39,7 @@ export default function HomePage() {
       <section id="hjem" className="relative flex min-h-[calc(100vh-72px)] flex-col overflow-hidden bg-[var(--ink-1000)] text-[var(--ink-0)]">
         <div
           className="bm-glow-anim pointer-events-none absolute inset-0"
-          style={{ background: 'radial-gradient(58% 60% at 70% 44%, rgba(255,61,0,0.26) 0%, rgba(255,61,0,0.12) 32%, transparent 68%)' }}
+          style={{ background: 'radial-gradient(58% 60% at 70% 44%, rgba(225,6,0,0.26) 0%, rgba(225,6,0,0.12) 32%, transparent 68%)' }}
         />
 
         <ParallaxHero className="absolute right-[-72px] top-1/2 z-[1] hidden h-[70%] w-[56%] -translate-y-1/2 lg:block">

@@ -13,15 +13,16 @@ const partnerLogos = [
 ];
 
 const members = [
-  { name: 'Johar Khalid', role: '' },
-  { name: 'Adam Dehli Villanger', role: '' },
-  { name: 'Filip Wlodarczyk', role: '' },
+  { name: 'Johar Khalid', role: 'Operations' },
+  { name: 'Adam Dehli Villanger', role: 'Operations' },
+  { name: 'Filip Wlodarczyk', role: 'Technical Lead' },
   { name: 'Nikolai Handeland', role: 'Electronics' },
   { name: 'August Dehlin Høyden', role: 'Mechanical' },
   { name: 'Rokas Naudziunas', role: 'Mentor / Driver' },
   { name: 'Vladislav Foss', role: 'Mentor / Driver' },
-  { name: 'Albert Synnerström', role: '' },
-  { name: 'Ferdinand Fjeld Adade', role: '' },
+  { name: 'Albert Synnerström', role: 'Mechanics' },
+  { name: 'Ferdinand Fjeld Adade', role: 'Mechanics / Marketing' },
+  { name: 'Fadhil Khan', role: 'Mentor' },
 ];
 
 function initials(name: string) {

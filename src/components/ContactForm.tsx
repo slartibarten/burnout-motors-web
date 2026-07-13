@@ -13,6 +13,7 @@ type Labels = {
   submit: string; submitting: string;
   success_title: string; success_desc: string;
   error_generic: string;
+  privacy_notice: string; privacy_link: string;
 };
 
 export default function ContactForm({ labels }: { labels: Labels }) {
@@ -118,6 +119,12 @@ export default function ContactForm({ labels }: { labels: Labels }) {
         <Button variant="accent" size="lg" fullWidth type="submit">
           {state === 'loading' ? labels.submitting : labels.submit}
         </Button>
+        <p style={{ fontSize: '12px', color: 'var(--ink-400)', fontFamily: 'var(--font-text)', margin: 0, lineHeight: 1.5 }}>
+          {labels.privacy_notice}{' '}
+          <a href="/personvern" style={{ color: 'var(--ink-200)', textDecoration: 'underline' }}>
+            {labels.privacy_link}
+          </a>
+        </p>
       </form>
     </Card>
   );

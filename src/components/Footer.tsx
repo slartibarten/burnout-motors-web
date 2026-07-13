@@ -1,6 +1,7 @@
 import Image from 'next/image';
+import Link from 'next/link';
 
-type FooterT = { tagline: string; copyright: string };
+type FooterT = { tagline: string; copyright: string; privacy?: string };
 
 export default function Footer({ t }: { t: FooterT }) {
   return (
@@ -52,6 +53,18 @@ export default function Footer({ t }: { t: FooterT }) {
             </svg>
             @burnoutmotorsno
           </a>
+          <Link
+            href="/personvern"
+            style={{
+              fontFamily: 'var(--font-mono)',
+              fontSize: '11px',
+              letterSpacing: '0.04em',
+              color: 'var(--ink-300)',
+              textDecoration: 'none',
+            }}
+          >
+            {t.privacy || 'Personvern'}
+          </Link>
           <div style={{ fontFamily: 'var(--font-mono)', fontSize: '11px', letterSpacing: '0.04em' }}>
             {t.copyright}
           </div>

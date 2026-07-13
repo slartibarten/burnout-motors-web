@@ -11,6 +11,7 @@ export function middleware(req: NextRequest) {
   // Never redirect the maintenance page itself or static assets
   if (
     pathname === MAINTENANCE_PATH ||
+    pathname === '/personvern' ||
     pathname.startsWith('/_next') ||
     pathname.startsWith('/logos') ||
     pathname.startsWith('/api') ||

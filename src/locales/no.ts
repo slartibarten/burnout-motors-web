@@ -85,6 +85,8 @@ const no = {
       success_title: 'Søknad mottatt!',
       success_desc: 'Vi tar kontakt så fort vi kan.',
       error_generic: 'Noe gikk galt. Prøv igjen.',
+      privacy_notice: 'Ved å sende inn godtar du at vi lagrer opplysningene dine.',
+      privacy_link: 'Les personvernerklæringen',
     },
   },
   partners: {
@@ -132,11 +134,14 @@ const no = {
       success_title: 'Meldingen er sendt!',
       success_desc: 'Vi svarer som regel innen et par dager.',
       error_generic: 'Noe gikk galt. Prøv igjen.',
+      privacy_notice: 'Ved å sende inn godtar du at vi lagrer opplysningene dine.',
+      privacy_link: 'Les personvernerklæringen',
     },
   },
   footer: {
     tagline: 'Universitetet i Oslo · GT3 · Racing NM',
     copyright: '© Burnout Motors — Prøv · fiks · test på nytt',
+    privacy: 'Personvern',
   },
 };
 

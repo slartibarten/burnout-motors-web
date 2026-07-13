@@ -87,6 +87,8 @@ const en: Translations = {
       success_title: 'Application received!',
       success_desc: "We'll be in touch as soon as we can.",
       error_generic: 'Something went wrong. Please try again.',
+      privacy_notice: 'By submitting you agree that we store your information.',
+      privacy_link: 'Read our privacy policy',
     },
   },
   partners: {
@@ -134,11 +136,14 @@ const en: Translations = {
       success_title: 'Message sent!',
       success_desc: 'We usually reply within a few days.',
       error_generic: 'Something went wrong. Please try again.',
+      privacy_notice: 'By submitting you agree that we store your information.',
+      privacy_link: 'Read our privacy policy',
     },
   },
   footer: {
     tagline: 'University of Oslo · GT3 · Racing NM',
     copyright: '© Burnout Motors — Break · fix · retest',
+    privacy: 'Privacy',
   },
 };
 

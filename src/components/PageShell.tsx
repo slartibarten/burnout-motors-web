@@ -2,8 +2,8 @@ import Nav from './Nav';
 import Footer from './Footer';
 import { getLocale, getT } from '@/lib/i18n';
 
-export default function PageShell({ children }: { children: React.ReactNode }) {
-  const locale = getLocale();
+export default async function PageShell({ children }: { children: React.ReactNode }) {
+  const locale = await getLocale();
   const t = getT(locale);
 
   return (

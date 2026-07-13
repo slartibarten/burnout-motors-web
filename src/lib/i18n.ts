@@ -4,8 +4,8 @@ import en from '@/locales/en';
 
 export type Locale = 'no' | 'en';
 
-export function getLocale(): Locale {
-  const cookie = cookies().get('locale')?.value;
+export async function getLocale(): Promise<Locale> {
+  const cookie = (await cookies()).get('locale')?.value;
   return cookie === 'en' ? 'en' : 'no';
 }
 

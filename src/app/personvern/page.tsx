@@ -3,8 +3,8 @@ import Nav from '@/components/Nav';
 import Footer from '@/components/Footer';
 import type { Metadata } from 'next';
 
-export function generateMetadata(): Metadata {
-  const locale = getLocale();
+export async function generateMetadata(): Promise<Metadata> {
+  const locale = await getLocale();
   return {
     title: locale === 'en'
       ? 'Privacy Policy — Burnout Motors'
@@ -124,8 +124,8 @@ const policyEN = {
   ],
 };
 
-export default function PrivacyPage() {
-  const locale = getLocale();
+export default async function PrivacyPage() {
+  const locale = await getLocale();
   const t = getT(locale);
   const policy = locale === 'en' ? policyEN : policyNO;
 

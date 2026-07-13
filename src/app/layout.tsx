@@ -24,8 +24,8 @@ const spaceMono = Space_Mono({
   display: "swap",
 });
 
-export function generateMetadata(): Metadata {
-  const locale = getLocale();
+export async function generateMetadata(): Promise<Metadata> {
+  const locale = await getLocale();
   const isEn = locale === "en";
   const title = isEn
     ? "Burnout Motors — Norway's First GT3 Student Team | UiO"
@@ -65,12 +65,12 @@ const organizationSchema = {
   sameAs: ["https://www.instagram.com/burnoutmotorsno/"],
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
-  const locale = getLocale();
+  const locale = await getLocale();
 
   return (
     <html lang={locale} className={`${oxanium.variable} ${archivo.variable} ${spaceMono.variable}`}>

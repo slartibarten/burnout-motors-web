@@ -1,6 +1,10 @@
 import { Resend } from 'resend';
 
-const resend = new Resend(process.env.RESEND_API_KEY);
+let _resend: Resend | null = null;
+function getResend() {
+  if (!_resend) _resend = new Resend(process.env.RESEND_API_KEY);
+  return _resend;
+}
 const TO = 'adamvi@uio.no';
 const FROM = 'Burnout Motors <onboarding@resend.dev>';
 
@@ -30,7 +34,7 @@ export async function sendContactNotification(data: {
   const subject = escapeHtml(data.subject);
   const message = escapeHtml(data.message).replace(/\n/g, '<br />');
 
-  await resend.emails.send({
+  await getResend().emails.send({
     from: FROM,
     to: TO,
     subject: `Ny kontaktmelding: ${data.subject || '(intet emne)'}`,
@@ -53,7 +57,7 @@ export async function sendApplicationNotification(data: {
   const email = escapeHtml(data.email);
   const field = escapeHtml(data.field);
 
-  await resend.emails.send({
+  await getResend().emails.send({
     from: FROM,
     to: TO,
     subject: `Ny søknad: ${data.name}`,

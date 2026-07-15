@@ -21,7 +21,7 @@ const en: Translations = {
     momentum: [
       [2024, 'Founded'],
       [565, 'Horsepower (target)'],
-      [9, 'Team members'],
+      [10, 'Team members'],
       [5, 'Disciplines'],
     ] as [number, string][],
     mission_eyebrow: 'The mission',

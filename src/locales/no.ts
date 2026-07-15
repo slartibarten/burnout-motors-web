@@ -19,7 +19,7 @@ const no = {
     momentum: [
       [2024, 'Grunnlagt'],
       [565, 'Hestekrefter (mål)'],
-      [9, 'Teammedlemmer'],
+      [10, 'Teammedlemmer'],
       [5, 'Fagfelt'],
     ] as [number, string][],
     mission_eyebrow: 'Oppdraget',

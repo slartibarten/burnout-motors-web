@@ -19,7 +19,7 @@ const policyNO = {
   sections: [
     {
       heading: '1. Behandlingsansvarlig',
-      body: 'Burnout Motors v/ organisasjonens styre er behandlingsansvarlig for personopplysninger vi samler inn. Kontakt oss på kontakt@burnoutmotors.org ved spørsmål om personvern.',
+      body: 'Burnout Motors v/ organisasjonens styre er behandlingsansvarlig for personopplysninger vi samler inn. Kontakt oss på adamvi@uio.no ved spørsmål om personvern.',
     },
     {
       heading: '2. Hvilke opplysninger vi samler inn',
@@ -63,7 +63,7 @@ const policyNO = {
     },
     {
       heading: '7. Kontakt',
-      body: 'Spørsmål om personvern kan rettes til kontakt@burnoutmotors.org.',
+      body: 'Spørsmål om personvern kan rettes til adamvi@uio.no.',
     },
   ],
 };
@@ -75,7 +75,7 @@ const policyEN = {
   sections: [
     {
       heading: '1. Data controller',
-      body: 'Burnout Motors, represented by the organization\'s board, is the data controller for the personal data we collect. Contact us at kontakt@burnoutmotors.org for privacy-related questions.',
+      body: 'Burnout Motors, represented by the organization\'s board, is the data controller for the personal data we collect. Contact us at adamvi@uio.no for privacy-related questions.',
     },
     {
       heading: '2. What data we collect',
@@ -119,7 +119,7 @@ const policyEN = {
     },
     {
       heading: '7. Contact',
-      body: 'Privacy-related questions can be directed to kontakt@burnoutmotors.org.',
+      body: 'Privacy-related questions can be directed to adamvi@uio.no.',
     },
   ],
 };

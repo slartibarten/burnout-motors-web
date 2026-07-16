@@ -18,7 +18,7 @@ const no = {
     cta_car: 'Se bilen',
     momentum: [
       [2024, 'Grunnlagt'],
-      [565, 'Hestekrefter (mål)'],
+      [350, 'Hestekrefter'],
       [10, 'Teammedlemmer'],
       [5, 'Fagfelt'],
     ] as [number, string][],
@@ -30,7 +30,7 @@ const no = {
       ['Prøv · fiks · test på nytt', 'Test, finn feilen, fiks, test igjen. Sløyfa som gjør en student til ingeniør.'],
     ],
     machine_eyebrow: 'Maskinen',
-    machine_title: '565 hk – bygget av studenter',
+    machine_title: '350 hk – bygget av studenter',
     machine_desc: 'Homologert karosseri, race-aero og studentbygd drivlinje. De ekte tallene kommer når bilen ruller.',
     folkene_eyebrow: 'Bli med',
     folkene_title: 'Bygg en racerbil. Bli en ingeniør.',

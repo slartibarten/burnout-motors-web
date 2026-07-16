@@ -20,7 +20,7 @@ const en: Translations = {
     cta_car: 'See the car',
     momentum: [
       [2024, 'Founded'],
-      [565, 'Horsepower (target)'],
+      [350, 'Horsepower'],
       [10, 'Team members'],
       [5, 'Disciplines'],
     ] as [number, string][],
@@ -32,7 +32,7 @@ const en: Translations = {
       ['Break · fix · retest', 'Test, find the fault, fix it, retest. The loop that turns a student into an engineer.'],
     ],
     machine_eyebrow: 'The machine',
-    machine_title: '565 hp of student-built engineering',
+    machine_title: '350 hp of student-built engineering',
     machine_desc: 'Homologated bodywork, race aero and a student-built drivetrain. Real numbers land once the car runs.',
     folkene_eyebrow: 'Join us',
     folkene_title: 'Build a race car. Become an engineer.',

@@ -41,6 +41,24 @@ const en: Translations = {
     partners_label: 'Backed by',
     partners_cta: 'Become a partner',
     closing_title: 'Will you race with us?',
+    race: {
+      next: 'Next stop',
+      title: 'Racing NM 2027',
+      tba: 'Date to be announced',
+      units: { days: 'days', hours: 'hours', mins: 'min', secs: 'sec' },
+    },
+    roadmap_eyebrow: 'The road to NM',
+    roadmap_title: 'The milestones taking us to the grid',
+    roadmap: [
+      ['2024', 'Founded', 'Started by students at UiO with one idea: build a real race car.'],
+      ['2025', 'The build', 'Chassis, engine and drivetrain come together in the workshop — part by part.'],
+      ['2026', 'First start', 'The engine fires up for the first time in front of a crowd at Frederikke plass.'],
+      ['2027', 'Racing NM', 'We line up on the grid. The goal all along.'],
+    ] as [string, string, string][],
+    follow_eyebrow: 'Follow the journey',
+    follow_title: 'Behind the scenes, straight from the workshop',
+    follow_desc: 'Builds, tests and everything that breaks along the way — we share the whole road to NM 2027 on Instagram.',
+    follow_cta: 'Follow @burnoutmotorsno',
   },
   about: {
     eyebrow: 'Who we are',
@@ -141,7 +159,7 @@ const en: Translations = {
     },
   },
   footer: {
-    tagline: 'University of Oslo · GT3 · Racing NM',
+    tagline: 'University of Oslo · GT3 · Racing NM 2027',
     copyright: '© Burnout Motors — Break · fix · retest',
     privacy: 'Privacy',
   },

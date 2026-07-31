@@ -4,6 +4,7 @@ import { Badge, Button } from '@/components/ui';
 import { Reveal, Counter, TiltCard, ParallaxHero } from '@/components/motion';
 import ApplyForm from '@/components/ApplyForm';
 import ContactForm from '@/components/ContactForm';
+import RaceStrip from '@/components/RaceStrip';
 import { getLocale, getT } from '@/lib/i18n';
 
 const partnerLogos = [
@@ -109,6 +110,9 @@ export default async function HomePage() {
         </div>
       </section>
 
+      {/* RACE-STRIP */}
+      <RaceStrip labels={h.race} />
+
       {/* MOMENTUM */}
       <section className="border-t border-[var(--ink-800)] bg-[var(--ink-900)] px-5 py-16 sm:px-8">
         <Reveal className="mx-auto grid max-w-[var(--container-max)] grid-cols-2 gap-8 lg:grid-cols-4">
@@ -171,6 +175,33 @@ export default async function HomePage() {
                 />
               </div>
             </Reveal>
+          </div>
+
+          {/* Veien til NM */}
+          <div className="mt-20">
+            <Reveal>
+              <span className="bm-eyebrow">{h.roadmap_eyebrow}</span>
+              <h3 className="mt-3 max-w-[24ch] font-[family-name:var(--font-display)] text-[clamp(24px,3vw,34px)] font-extrabold text-[var(--ink-0)]">
+                {h.roadmap_title}
+              </h3>
+            </Reveal>
+            <div className="mt-10 grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-4">
+              {h.roadmap.map(([year, title, desc], i) => {
+                const last = i === h.roadmap.length - 1;
+                return (
+                  <Reveal key={year} delay={i * 80}>
+                    <div className={`relative border-t-2 pt-5 ${last ? 'border-[var(--ember-500)]' : 'border-[var(--ink-700)]'}`}>
+                      <span className={`absolute -top-[5px] left-0 h-2 w-2 rounded-full ${last ? 'bg-[var(--ember-500)]' : 'bg-[var(--ink-500)]'}`} />
+                      <span className={`font-[family-name:var(--font-mono)] text-[12px] tracking-[0.18em] ${last ? 'text-[var(--ember-400)]' : 'text-[var(--ink-400)]'}`}>
+                        {year}
+                      </span>
+                      <h4 className="mt-2 font-[family-name:var(--font-display)] text-[18px] font-bold text-[var(--ink-0)]">{title}</h4>
+                      <p className="m-0 mt-2 font-[family-name:var(--font-text)] text-[14px] leading-[1.55] text-[var(--ink-300)]">{desc}</p>
+                    </div>
+                  </Reveal>
+                );
+              })}
+            </div>
           </div>
         </div>
       </section>
@@ -326,6 +357,31 @@ export default async function HomePage() {
               <p className="mb-0 mt-2 font-[family-name:var(--font-text)] text-[15px] text-[var(--ink-300)]">{t.partners.cta_desc}</p>
             </div>
             <Button href="#kontakt" variant="accent" size="lg">{t.partners.cta_btn}</Button>
+          </Reveal>
+        </div>
+      </section>
+
+      {/* FØLG REISEN */}
+      <section className="border-t border-[var(--ink-800)] bg-[var(--ink-1000)] px-5 sm:px-8" style={{ paddingTop: '72px', paddingBottom: '72px' }}>
+        <div className="mx-auto max-w-[var(--container-max)]">
+          <Reveal className="flex flex-wrap items-center justify-between gap-6 rounded-lg border border-[var(--ink-700)] border-l-[3px] border-l-[var(--ember-500)] bg-[var(--ink-900)] p-8">
+            <div className="max-w-[520px]">
+              <span className="bm-eyebrow">{h.follow_eyebrow}</span>
+              <h2 className="mt-3 font-[family-name:var(--font-display)] text-[clamp(22px,2.8vw,30px)] font-extrabold text-[var(--ink-0)]">
+                {h.follow_title}
+              </h2>
+              <p className="mb-0 mt-3 font-[family-name:var(--font-text)] text-[15px] leading-[1.6] text-[var(--ink-300)]">
+                {h.follow_desc}
+              </p>
+            </div>
+            <a
+              href="https://www.instagram.com/burnoutmotorsno/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center justify-center rounded-[var(--radius-md)] border-[1.5px] border-[var(--ink-0)] px-[26px] py-[13px] font-[family-name:var(--font-display)] text-[15px] font-bold uppercase tracking-[0.06em] text-[var(--ink-0)] no-underline transition-colors hover:bg-[rgba(255,255,255,0.12)]"
+            >
+              {h.follow_cta}
+            </a>
           </Reveal>
         </div>
       </section>

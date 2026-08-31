@@ -3,23 +3,26 @@ import { Oxanium, Archivo, Space_Mono } from "next/font/google";
 import { getLocale } from "@/lib/i18n";
 import "./globals.css";
 
+// Bare vektene som faktisk brukes: display-fonten er alltid 700/800,
+// brødteksten 400/700. font-medium og font-semibold har null treff i koden,
+// så Oxanium 400/600 og Archivo 500/600 lastet uten å bli brukt.
 const oxanium = Oxanium({
   subsets: ["latin"],
-  weight: ["400", "600", "700", "800"],
+  weight: ["700", "800"],
   variable: "--font-display",
   display: "swap",
 });
 
 const archivo = Archivo({
   subsets: ["latin"],
-  weight: ["400", "500", "600", "700"],
+  weight: ["400", "700"],
   variable: "--font-text",
   display: "swap",
 });
 
 const spaceMono = Space_Mono({
   subsets: ["latin"],
-  weight: ["400", "700"],
+  weight: ["400"],
   variable: "--font-mono",
   display: "swap",
 });
@@ -45,7 +48,7 @@ export async function generateMetadata(): Promise<Metadata> {
       siteName: "Burnout Motors",
       locale: isEn ? "en_US" : "nb_NO",
       type: "website",
-      images: [{ url: "/images/car-frederikke.jpg", width: 1500, height: 1000 }],
+      images: [{ url: "/images/car-frederikke.jpg", width: 2000, height: 1500 }],
     },
     twitter: {
       card: "summary_large_image",

@@ -6,6 +6,18 @@ import Link from 'next/link';
 type ButtonVariant = 'accent' | 'outline' | 'ghost';
 type ButtonSize = 'sm' | 'md' | 'lg';
 
+const buttonSize: Record<ButtonSize, string> = {
+  sm: 'px-3.5 py-[7px] text-[12px]',
+  md: 'px-5 py-2.5 text-[14px]',
+  lg: 'px-[26px] py-[13px] text-[15px]',
+};
+
+const buttonVariant: Record<ButtonVariant, string> = {
+  accent: 'bg-[var(--ember-500)] text-[var(--ink-0)] border-none hover:bg-[var(--ember-400)]',
+  outline: 'bg-transparent text-[var(--ink-0)] border-[1.5px] border-[var(--ink-0)] hover:bg-[rgba(255,255,255,0.12)]',
+  ghost: 'bg-transparent text-[var(--ink-200)] border-[1.5px] border-[var(--ink-700)] hover:bg-[rgba(255,255,255,0.12)]',
+};
+
 export function Button({
   variant = 'accent',
   size = 'md',
@@ -15,6 +27,7 @@ export function Button({
   type = 'button',
   href,
   style,
+  disabled,
 }: {
   variant?: ButtonVariant;
   size?: ButtonSize;
@@ -24,53 +37,21 @@ export function Button({
   type?: 'button' | 'submit';
   href?: string;
   style?: React.CSSProperties;
+  disabled?: boolean;
 }) {
-  const sizes: Record<ButtonSize, React.CSSProperties> = {
-    sm: { padding: '7px 14px', fontSize: '12px' },
-    md: { padding: '10px 20px', fontSize: '14px' },
-    lg: { padding: '13px 26px', fontSize: '15px' },
-  };
-
-  const variants: Record<ButtonVariant, React.CSSProperties> = {
-    accent: { background: 'var(--ember-500)', color: 'var(--ink-0)', border: 'none' },
-    outline: { background: 'transparent', color: 'var(--ink-0)', border: '1.5px solid var(--ink-0)' },
-    ghost: { background: 'transparent', color: 'var(--ink-200)', border: '1.5px solid var(--ink-700)' },
-  };
-
-  const shared: React.CSSProperties = {
-    fontFamily: 'var(--font-display)',
-    fontWeight: 700,
-    letterSpacing: '0.06em',
-    textTransform: 'uppercase',
-    borderRadius: 'var(--radius-md)',
-    cursor: 'pointer',
-    transition: 'background var(--dur-fast), color var(--dur-fast), border-color var(--dur-fast)',
-    display: 'inline-flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    width: fullWidth ? '100%' : undefined,
-    textDecoration: 'none',
-    ...sizes[size],
-    ...variants[variant],
-    ...style,
-  };
-
-  function hoverIn(el: HTMLElement) {
-    if (variant === 'accent') el.style.background = 'var(--ember-400)';
-    else el.style.background = 'rgba(255,255,255,0.12)';
-  }
-  function hoverOut(el: HTMLElement) {
-    el.style.background = variant === 'accent' ? 'var(--ember-500)' : 'transparent';
-  }
+  const cls = [
+    'inline-flex items-center justify-center rounded-[var(--radius-md)] no-underline',
+    'font-[family-name:var(--font-display)] font-bold uppercase tracking-[0.06em]',
+    'transition-[background-color,color,border-color,opacity] duration-[var(--dur-fast)]',
+    buttonSize[size],
+    buttonVariant[variant],
+    fullWidth ? 'w-full' : '',
+    disabled ? 'cursor-not-allowed opacity-60 hover:bg-[var(--ember-500)]' : 'cursor-pointer',
+  ].join(' ');
 
   if (href) {
     return (
-      <Link
-        href={href}
-        style={shared}
-        onMouseEnter={(e) => hoverIn(e.currentTarget)}
-        onMouseLeave={(e) => hoverOut(e.currentTarget)}
-      >
+      <Link href={href} className={cls} style={style}>
         {children}
       </Link>
     );
@@ -80,9 +61,10 @@ export function Button({
     <button
       type={type}
       onClick={onClick}
-      style={shared}
-      onMouseEnter={(e) => hoverIn(e.currentTarget)}
-      onMouseLeave={(e) => hoverOut(e.currentTarget)}
+      disabled={disabled}
+      aria-busy={disabled || undefined}
+      className={cls}
+      style={style}
     >
       {children}
     </button>
@@ -96,64 +78,37 @@ export function Badge({ children, tone = 'accent', variant = 'solid', shape = 'p
   variant?: 'solid' | 'outline';
   shape?: 'pill' | 'default';
 }) {
-  const base: React.CSSProperties = {
-    fontFamily: 'var(--font-mono)',
-    fontSize: '11px',
-    letterSpacing: '0.1em',
-    textTransform: 'uppercase',
-    padding: '4px 10px',
-    borderRadius: shape === 'pill' ? 'var(--radius-pill)' : 'var(--radius-md)',
-    display: 'inline-block',
-  };
+  const tint =
+    tone === 'accent' && variant === 'solid'
+      ? 'bg-[var(--ember-500)] text-[var(--ink-0)]'
+      : tone === 'neutral' && variant === 'outline'
+        ? 'border border-[var(--ink-500)] bg-transparent text-[var(--ink-200)]'
+        : 'bg-[var(--ink-700)] text-[var(--ink-200)]';
 
-  if (tone === 'accent' && variant === 'solid') {
-    return <span style={{ ...base, background: 'var(--ember-500)', color: 'var(--ink-0)' }}>{children}</span>;
-  }
-  if (tone === 'neutral' && variant === 'outline') {
-    return <span style={{ ...base, background: 'transparent', color: 'var(--ink-200)', border: '1px solid var(--ink-500)' }}>{children}</span>;
-  }
-  return <span style={{ ...base, background: 'var(--ink-700)', color: 'var(--ink-200)' }}>{children}</span>;
-}
-
-// StatChip
-export function StatChip({ label, value, unit, accent }: {
-  label: string;
-  value: string;
-  unit: string;
-  inverse?: boolean;
-  accent?: boolean;
-}) {
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: '2px' }}>
-      <span style={{ fontFamily: 'var(--font-mono)', fontSize: '11px', letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--ink-400)' }}>{label}</span>
-      <div style={{ display: 'flex', alignItems: 'baseline', gap: '4px' }}>
-        <span style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '36px', lineHeight: 1, color: accent ? 'var(--ember-500)' : 'var(--ink-0)' }}>{value}</span>
-        <span style={{ fontFamily: 'var(--font-mono)', fontSize: '13px', color: 'var(--ink-400)' }}>{unit}</span>
-      </div>
-    </div>
+    <span
+      className={`inline-block px-2.5 py-1 font-[family-name:var(--font-mono)] text-[11px] uppercase tracking-[0.1em] ${
+        shape === 'pill' ? 'rounded-[var(--radius-pill)]' : 'rounded-[var(--radius-md)]'
+      } ${tint}`}
+    >
+      {children}
+    </span>
   );
 }
 
 // Card
-export function Card({ children, inverse, stripe, interactive, padding }: {
+export function Card({ children, inverse, stripe, padding }: {
   children: React.ReactNode;
   inverse?: boolean;
   stripe?: boolean;
-  interactive?: boolean;
   padding?: string;
 }) {
   return (
     <div
-      style={{
-        background: inverse ? 'var(--ink-900)' : 'var(--ink-0)',
-        border: '1px solid var(--ink-700)',
-        borderRadius: 'var(--radius-lg)',
-        padding: padding ?? '28px',
-        position: 'relative',
-        overflow: 'hidden',
-        transition: interactive ? 'border-color var(--dur-base)' : undefined,
-        borderLeft: stripe ? '3px solid var(--ember-500)' : undefined,
-      }}
+      className={`relative overflow-hidden rounded-[var(--radius-lg)] border border-[var(--ink-700)] ${
+        inverse ? 'bg-[var(--ink-900)]' : 'bg-[var(--ink-0)]'
+      } ${stripe ? 'border-l-[3px] border-l-[var(--ember-500)]' : ''}`}
+      style={{ padding: padding ?? '28px' }}
     >
       {children}
     </div>
@@ -161,42 +116,58 @@ export function Card({ children, inverse, stripe, interactive, padding }: {
 }
 
 // Input
-export function Input({ label, placeholder, type = 'text', name }: {
+export function Input({ label, placeholder, type = 'text', name, required, autoComplete }: {
   label: string;
   placeholder: string;
   type?: string;
   name?: string;
+  required?: boolean;
+  autoComplete?: string;
 }) {
   return (
-    <label style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
-      <span style={{
-        fontFamily: 'var(--font-display)',
-        fontWeight: 700,
-        fontSize: '12px',
-        letterSpacing: '0.12em',
-        textTransform: 'uppercase',
-        color: 'var(--ink-400)',
-      }}>
+    <label className="flex flex-col gap-1.5">
+      <span className="font-[family-name:var(--font-display)] text-[12px] font-bold uppercase tracking-[0.12em] text-[var(--ink-300)]">
         {label}
       </span>
       <input
         type={type}
         name={name}
         placeholder={placeholder}
-        style={{
-          fontFamily: 'var(--font-text)',
-          fontSize: '15px',
-          color: 'var(--ink-0)',
-          padding: '12px 14px',
-          borderRadius: 'var(--radius-md)',
-          border: '2px solid var(--ink-700)',
-          background: 'var(--ink-800)',
-          outline: 'none',
-          width: '100%',
-        }}
-        onFocus={(e) => { e.currentTarget.style.borderColor = 'var(--ember-500)'; }}
-        onBlur={(e) => { e.currentTarget.style.borderColor = 'var(--ink-700)'; }}
+        required={required}
+        autoComplete={autoComplete}
+        className="w-full rounded-[var(--radius-md)] border-2 border-[var(--ink-700)] bg-[var(--ink-800)] px-3.5 py-3 font-[family-name:var(--font-text)] text-[15px] text-[var(--ink-0)] transition-colors focus:border-[var(--ember-500)]"
       />
+    </label>
+  );
+}
+
+export function Select({ label, name, options, defaultValue, required }: {
+  label: string;
+  name?: string;
+  options: { value: string; label: string }[];
+  defaultValue?: string;
+  required?: boolean;
+}) {
+  return (
+    <label className="flex flex-col gap-1.5">
+      <span className="font-[family-name:var(--font-display)] text-[12px] font-bold uppercase tracking-[0.12em] text-[var(--ink-300)]">
+        {label}
+      </span>
+      <select
+        name={name}
+        defaultValue={defaultValue ?? options[0]?.value}
+        required={required}
+        // Chevronen tegnes inline som data-URI slik at feltet ikke trenger et eget ikon-asset.
+        className="w-full cursor-pointer appearance-none rounded-[var(--radius-md)] border-2 border-[var(--ink-700)] bg-[var(--ink-800)] bg-[length:12px] bg-[right_14px_center] bg-no-repeat py-3 pl-3.5 pr-10 font-[family-name:var(--font-text)] text-[15px] text-[var(--ink-0)] transition-colors focus:border-[var(--ember-500)]"
+        style={{
+          backgroundImage:
+            "url(\"data:image/svg+xml;charset=UTF-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8' fill='none'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%238A8A94' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E\")",
+        }}
+      >
+        {options.map((o) => (
+          <option key={o.value} value={o.value}>{o.label}</option>
+        ))}
+      </select>
     </label>
   );
 }

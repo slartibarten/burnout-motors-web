@@ -2,6 +2,7 @@
 import { useEffect, useRef, useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
+import { usePathname } from 'next/navigation';
 import LanguageSwitcher from './LanguageSwitcher';
 
 type NavLabels = {
@@ -15,6 +16,10 @@ export default function Nav({ labels, locale }: { labels: NavLabels; locale: str
   const [open, setOpen] = useState(false);
   const [active, setActive] = useState('hjem');
   const overlayRef = useRef<HTMLDivElement>(null);
+  // På undersider (f.eks. /personvern) finnes ikke seksjonene, så bare `#team`
+  // ga /personvern#team og ingenting skjedde. Da må lenkene peke til forsiden.
+  const onHome = usePathname() === '/';
+  const hrefFor = (id: string) => (onHome ? `#${id}` : `/#${id}`);
 
   const items = [
     { label: labels.home, id: 'hjem' },
@@ -25,8 +30,11 @@ export default function Nav({ labels, locale }: { labels: NavLabels; locale: str
     { label: labels.contact, id: 'kontakt' },
   ];
 
-  // Scrollspy: siste seksjon med topp over nav-høyden er aktiv
+  // Scrollspy: siste seksjon med topp over nav-høyden er aktiv.
+  // Kjøres bare på forsiden — ellers ble «Hjem» stående rødmarkert på
+  // en side som ikke er forsiden.
   useEffect(() => {
+    if (!onHome) return;
     let raf = 0;
     const compute = () => {
       let current = 'hjem';
@@ -46,7 +54,7 @@ export default function Nav({ labels, locale }: { labels: NavLabels; locale: str
       window.removeEventListener('scroll', onScroll);
       cancelAnimationFrame(raf);
     };
-  }, []);
+  }, [onHome]);
 
   // Escape, scroll-lås og fokus inn i menyen
   useEffect(() => {
@@ -87,9 +95,9 @@ export default function Nav({ labels, locale }: { labels: NavLabels; locale: str
         {items.map((item) => (
           <a
             key={item.id}
-            href={`#${item.id}`}
-            className={linkClass(active === item.id)}
-            aria-current={active === item.id ? 'true' : undefined}
+            href={hrefFor(item.id)}
+            className={linkClass(onHome && active === item.id)}
+            aria-current={onHome && active === item.id ? 'true' : undefined}
           >
             {item.label}
           </a>
@@ -99,7 +107,7 @@ export default function Nav({ labels, locale }: { labels: NavLabels; locale: str
       <div className="hidden shrink-0 items-center gap-2.5 lg:flex">
         <LanguageSwitcher current={locale} />
         <a
-          href="#apply"
+          href={hrefFor('apply')}
           className="inline-block rounded bg-[var(--ember-500)] px-4 py-2 font-[family-name:var(--font-display)] text-[13px] font-bold uppercase tracking-[0.06em] text-[var(--ink-0)] no-underline transition-colors duration-150 hover:bg-[var(--ember-400)]"
         >
           {labels.join}
@@ -131,10 +139,10 @@ export default function Nav({ labels, locale }: { labels: NavLabels; locale: str
             {items.map((item, i) => (
               <a
                 key={item.id}
-                href={`#${item.id}`}
+                href={hrefFor(item.id)}
                 onClick={() => setOpen(false)}
                 className={`bm-menu-item border-b border-[var(--ink-800)] py-4 font-[family-name:var(--font-display)] text-[22px] font-bold uppercase tracking-[0.06em] no-underline ${
-                  active === item.id ? 'text-[var(--ember-400)]' : 'text-[var(--ink-0)]'
+                  onHome && active === item.id ? 'text-[var(--ember-400)]' : 'text-[var(--ink-0)]'
                 }`}
                 style={{ animationDelay: `${i * 60}ms` }}
               >
@@ -148,7 +156,7 @@ export default function Nav({ labels, locale }: { labels: NavLabels; locale: str
           >
             <LanguageSwitcher current={locale} />
             <a
-              href="#apply"
+              href={hrefFor('apply')}
               onClick={() => setOpen(false)}
               className="inline-block rounded bg-[var(--ember-500)] px-6 py-3.5 font-[family-name:var(--font-display)] text-[14px] font-bold uppercase tracking-[0.06em] text-[var(--ink-0)] no-underline"
             >

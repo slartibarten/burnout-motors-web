@@ -1,11 +1,13 @@
 'use client';
 import { useState } from 'react';
-import { Input, Button, Card } from './ui';
+import { Input, Select, Button, Card } from './ui';
 
 type State = 'idle' | 'loading' | 'success' | 'error';
 
 type Labels = {
   title: string; subtitle: string;
+  type_label: string;
+  type_partner: string; type_rekruttering: string; type_presse: string; type_annet: string;
   name_label: string; name_placeholder: string;
   email_label: string; email_placeholder: string;
   subject_label: string; subject_placeholder: string;
@@ -13,8 +15,22 @@ type Labels = {
   submit: string; submitting: string;
   success_title: string; success_desc: string;
   error_generic: string;
+  error_rate_limit: string;
+  error_missing_fields: string;
+  error_invalid_email: string;
   privacy_notice: string; privacy_link: string;
 };
+
+// Serveren svarer med en språknøytral kode; teksten hentes fra locale-fila
+// slik at engelske besøkende ikke får norske feilmeldinger.
+function messageForCode(code: unknown, labels: Labels) {
+  switch (code) {
+    case 'rate_limit': return labels.error_rate_limit;
+    case 'missing_fields': return labels.error_missing_fields;
+    case 'invalid_email': return labels.error_invalid_email;
+    default: return labels.error_generic;
+  }
+}
 
 export default function ContactForm({ labels }: { labels: Labels }) {
   const [state, setState] = useState<State>('idle');
@@ -22,10 +38,12 @@ export default function ContactForm({ labels }: { labels: Labels }) {
 
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
+    if (state === 'loading') return;
     setState('loading');
 
     const form = e.currentTarget;
     const data = {
+      type:    (form.elements.namedItem('type')    as HTMLSelectElement).value,
       name:    (form.elements.namedItem('name')    as HTMLInputElement).value,
       email:   (form.elements.namedItem('email')   as HTMLInputElement).value,
       subject: (form.elements.namedItem('subject') as HTMLInputElement).value,
@@ -33,18 +51,27 @@ export default function ContactForm({ labels }: { labels: Labels }) {
       website: (form.elements.namedItem('website') as HTMLInputElement)?.value ?? '',
     };
 
-    const res = await fetch('/api/contact', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(data),
-    });
+    try {
+      const res = await fetch('/api/contact', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data),
+      });
 
-    if (res.ok) {
-      setState('success');
-      form.reset();
-    } else {
-      const json = await res.json();
-      setErrorMsg(json.error ?? labels.error_generic);
+      if (res.ok) {
+        setState('success');
+        form.reset();
+        return;
+      }
+
+      // En 502 e.l. kan svare med HTML — da faller vi tilbake på generisk tekst.
+      const json = await res.json().catch(() => null);
+      setErrorMsg(messageForCode(json?.code, labels));
+      setState('error');
+    } catch {
+      // Nettverksfeil, offline, avbrutt request. Uten dette ble knappen
+      // stående på «Sender…» for alltid.
+      setErrorMsg(labels.error_generic);
       setState('error');
     }
   }
@@ -52,12 +79,12 @@ export default function ContactForm({ labels }: { labels: Labels }) {
   if (state === 'success') {
     return (
       <Card stripe inverse padding="48px">
-        <div style={{ textAlign: 'center', padding: '24px 0' }}>
-          <div style={{ fontSize: '32px', marginBottom: '16px' }}>✓</div>
-          <h3 style={{ fontSize: '22px', color: 'var(--ink-0)', fontFamily: 'var(--font-display)', fontWeight: 700, marginBottom: '8px' }}>
+        <div role="status" className="py-6 text-center">
+          <div aria-hidden="true" className="mb-4 text-[32px]">✓</div>
+          <h3 className="mb-2 font-[family-name:var(--font-display)] text-[22px] font-bold text-[var(--ink-0)]">
             {labels.success_title}
           </h3>
-          <p style={{ fontSize: '15px', color: 'var(--ink-300)', fontFamily: 'var(--font-text)' }}>
+          <p className="font-[family-name:var(--font-text)] text-[15px] text-[var(--ink-300)]">
             {labels.success_desc}
           </p>
         </div>
@@ -67,61 +94,55 @@ export default function ContactForm({ labels }: { labels: Labels }) {
 
   return (
     <Card stripe inverse padding="48px">
-      <h3 style={{ fontSize: '24px', color: 'var(--ink-0)', marginBottom: '4px', fontFamily: 'var(--font-display)', fontWeight: 700 }}>
+      <h3 className="mb-1 font-[family-name:var(--font-display)] text-[24px] font-bold text-[var(--ink-0)]">
         {labels.title}
       </h3>
-      <p style={{ fontSize: '14px', color: 'var(--ink-300)', marginTop: 0, marginBottom: '24px', fontFamily: 'var(--font-text)' }}>
+      <p className="mb-6 mt-0 font-[family-name:var(--font-text)] text-[14px] text-[var(--ink-300)]">
         {labels.subtitle}
       </p>
-      <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '18px' }}>
+      <form onSubmit={handleSubmit} className="flex flex-col gap-[18px]">
         {/* Honeypot — hidden from users, catches bots. Do not remove. */}
-        <div aria-hidden="true" style={{ position: 'absolute', left: '-9999px', width: 1, height: 1, overflow: 'hidden' }}>
+        <div aria-hidden="true" className="absolute left-[-9999px] h-px w-px overflow-hidden">
           <input type="text" name="website" tabIndex={-1} autoComplete="off" />
         </div>
-        <Input label={labels.name_label} placeholder={labels.name_placeholder} name="name" />
-        <Input label={labels.email_label} placeholder={labels.email_placeholder} type="email" name="email" />
-        <Input label={labels.subject_label} placeholder={labels.subject_placeholder} name="subject" />
-        <label style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
-          <span style={{
-            fontFamily: 'var(--font-display)',
-            fontWeight: 700,
-            fontSize: '12px',
-            letterSpacing: '0.12em',
-            textTransform: 'uppercase',
-            color: 'var(--ink-400)',
-          }}>{labels.message_label}</span>
+        <Select
+          label={labels.type_label}
+          name="type"
+          options={[
+            { value: 'partner',      label: labels.type_partner },
+            { value: 'rekruttering', label: labels.type_rekruttering },
+            { value: 'presse',       label: labels.type_presse },
+            { value: 'annet',        label: labels.type_annet },
+          ]}
+        />
+        <Input label={labels.name_label} placeholder={labels.name_placeholder} name="name" required autoComplete="name" />
+        <Input label={labels.email_label} placeholder={labels.email_placeholder} type="email" name="email" required autoComplete="email" />
+        <Input label={labels.subject_label} placeholder={labels.subject_placeholder} name="subject" required autoComplete="off" />
+        <label className="flex flex-col gap-1.5">
+          <span className="font-[family-name:var(--font-display)] text-[12px] font-bold uppercase tracking-[0.12em] text-[var(--ink-300)]">
+            {labels.message_label}
+          </span>
           <textarea
             rows={6}
             name="message"
             required
             placeholder={labels.message_placeholder}
-            style={{
-              fontFamily: 'var(--font-text)',
-              fontSize: '15px',
-              color: 'var(--ink-0)',
-              padding: '12px 14px',
-              borderRadius: 'var(--radius-md)',
-              border: '2px solid var(--ink-700)',
-              background: 'var(--ink-800)',
-              resize: 'vertical',
-              outline: 'none',
-              width: '100%',
-            }}
+            className="w-full resize-y rounded-[var(--radius-md)] border-2 border-[var(--ink-700)] bg-[var(--ink-800)] px-3.5 py-3 font-[family-name:var(--font-text)] text-[15px] text-[var(--ink-0)] transition-colors focus:border-[var(--ember-500)]"
           />
         </label>
 
-        {state === 'error' && (
-          <p style={{ fontSize: '14px', color: 'var(--ember-500)', fontFamily: 'var(--font-text)', margin: 0 }}>
-            {errorMsg}
-          </p>
-        )}
+        {/* Alltid montert: en live region må finnes i DOM-en før teksten
+            settes inn, ellers annonserer ikke skjermlesere endringen. */}
+        <p role="alert" className="m-0 font-[family-name:var(--font-text)] text-[14px] text-[var(--ember-400)]">
+          {state === 'error' ? errorMsg : ''}
+        </p>
 
-        <Button variant="accent" size="lg" fullWidth type="submit">
+        <Button variant="accent" size="lg" fullWidth type="submit" disabled={state === 'loading'}>
           {state === 'loading' ? labels.submitting : labels.submit}
         </Button>
-        <p style={{ fontSize: '12px', color: 'var(--ink-400)', fontFamily: 'var(--font-text)', margin: 0, lineHeight: 1.5 }}>
+        <p className="m-0 max-w-[58ch] font-[family-name:var(--font-text)] text-[12px] leading-[1.5] text-[var(--ink-400)]">
           {labels.privacy_notice}{' '}
-          <a href="/personvern" style={{ color: 'var(--ink-200)', textDecoration: 'underline' }}>
+          <a href="/personvern" className="text-[var(--ink-200)] underline">
             {labels.privacy_link}
           </a>
         </p>

@@ -61,6 +61,10 @@ export function Counter({ value, duration = 800 }: { value: number; duration?: n
     const el = ref.current;
     if (!el || prefersReducedMotion() || !('IntersectionObserver' in window)) return;
 
+    // Allerede synlig ved mount: la tallet stå. Nullstilte vi her, rakk
+    // browseren å male 350 → 0 → 350 før observeren fyrte.
+    if (el.getBoundingClientRect().top < window.innerHeight) return;
+
     setDisplay(0);
     const io = new IntersectionObserver(
       (entries) => {

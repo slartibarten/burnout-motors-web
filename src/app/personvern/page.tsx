@@ -19,7 +19,7 @@ const policyNO = {
   sections: [
     {
       heading: '1. Behandlingsansvarlig',
-      body: 'Burnout Motors v/ organisasjonens styre er behandlingsansvarlig for personopplysninger vi samler inn. Kontakt oss på adamvi@uio.no ved spørsmål om personvern.',
+      body: 'Burnout Motors v/ organisasjonens styre er behandlingsansvarlig for personopplysninger vi samler inn. Kontakt oss på adamv@burnoutmotors.no ved spørsmål om personvern.',
     },
     {
       heading: '2. Hvilke opplysninger vi samler inn',
@@ -63,7 +63,7 @@ const policyNO = {
     },
     {
       heading: '7. Kontakt',
-      body: 'Spørsmål om personvern kan rettes til adamvi@uio.no.',
+      body: 'Spørsmål om personvern kan rettes til adamv@burnoutmotors.no.',
     },
   ],
 };
@@ -75,7 +75,7 @@ const policyEN = {
   sections: [
     {
       heading: '1. Data controller',
-      body: 'Burnout Motors, represented by the organization\'s board, is the data controller for the personal data we collect. Contact us at adamvi@uio.no for privacy-related questions.',
+      body: 'Burnout Motors, represented by the organization\'s board, is the data controller for the personal data we collect. Contact us at adamv@burnoutmotors.no for privacy-related questions.',
     },
     {
       heading: '2. What data we collect',
@@ -119,7 +119,7 @@ const policyEN = {
     },
     {
       heading: '7. Contact',
-      body: 'Privacy-related questions can be directed to adamvi@uio.no.',
+      body: 'Privacy-related questions can be directed to adamv@burnoutmotors.no.',
     },
   ],
 };
@@ -131,8 +131,9 @@ export default async function PrivacyPage() {
 
   return (
     <>
+      <a href="#innhold" className="bm-skip">{t.nav.skip}</a>
       <Nav labels={t.nav} locale={locale} />
-      <main className="page-enter bg-[var(--ink-1000)] px-5 pb-24 pt-20 text-[var(--ink-0)] sm:px-8">
+      <main id="innhold" className="page-enter bg-[var(--ink-1000)] px-5 pb-24 pt-20 text-[var(--ink-0)] sm:px-8">
         <article className="mx-auto max-w-[720px]">
           <h1 className="font-[family-name:var(--font-display)] text-[clamp(32px,4vw,48px)] font-extrabold leading-tight">
             {policy.title}

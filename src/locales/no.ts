@@ -7,6 +7,7 @@ const no = {
     partners: 'Partnere',
     contact: 'Kontakt',
     join: 'Bli med',
+    skip: 'Hopp til innhold',
   },
   home: {
     badge_gt3: 'GT3',
@@ -16,10 +17,11 @@ const no = {
     cta_partner: 'Bli partner',
     cta_join: 'Bli med i teamet',
     cta_car: 'Se bilen',
+    // «Grunnlagt 2024» lå her også, men er første milepæl i tidslinjen.
+    // Nøkkeltallene handler nå om hvor prosjektet står i dag.
     momentum: [
-      [2024, 'Grunnlagt'],
       [350, 'Hestekrefter'],
-      [10, 'Teammedlemmer'],
+      [12, 'Teammedlemmer'],
       [5, 'Fagfelt'],
     ] as [number, string][],
     mission_eyebrow: 'Oppdraget',
@@ -47,6 +49,8 @@ const no = {
     },
     roadmap_eyebrow: 'Veien til NM',
     roadmap_title: 'Milepælene som tar oss til startstreken',
+    roadmap_now: 'Nå',
+    roadmap_goal: 'Mål',
     roadmap: [
       ['2024', 'Grunnlagt', 'Startet av studenter ved UiO med én idé: bygg en ekte racerbil.'],
       ['2025', 'Bygging', 'Chassis, motor og drivlinje bygges opp i verkstedet – del for del.'],
@@ -103,6 +107,9 @@ const no = {
       success_title: 'Søknad mottatt!',
       success_desc: 'Vi tar kontakt så fort vi kan.',
       error_generic: 'Noe gikk galt. Prøv igjen.',
+      error_rate_limit: 'For mange forsøk. Vent litt og prøv igjen.',
+      error_missing_fields: 'Fyll ut alle feltene før du sender.',
+      error_invalid_email: 'E-postadressen ser ikke riktig ut. Sjekk den en gang til.',
       privacy_notice: 'Ved å sende inn godtar du at vi lagrer opplysningene dine.',
       privacy_link: 'Les personvernerklæringen',
     },
@@ -139,6 +146,11 @@ const no = {
     form: {
       title: 'Send en melding',
       subtitle: 'Vi svarer som regel innen et par dager.',
+      type_label: 'Hva gjelder det?',
+      type_partner: 'Partnerskap / sponsing',
+      type_rekruttering: 'Rekruttering',
+      type_presse: 'Presse',
+      type_annet: 'Annet',
       name_label: 'Navn',
       name_placeholder: 'Ditt navn',
       email_label: 'E-post',
@@ -152,14 +164,20 @@ const no = {
       success_title: 'Meldingen er sendt!',
       success_desc: 'Vi svarer som regel innen et par dager.',
       error_generic: 'Noe gikk galt. Prøv igjen.',
+      error_rate_limit: 'For mange forsøk. Vent litt og prøv igjen.',
+      error_missing_fields: 'Fyll ut alle feltene før du sender.',
+      error_invalid_email: 'E-postadressen ser ikke riktig ut. Sjekk den en gang til.',
       privacy_notice: 'Ved å sende inn godtar du at vi lagrer opplysningene dine.',
       privacy_link: 'Les personvernerklæringen',
     },
+    email_label: 'Eller send e-post direkte',
   },
   footer: {
     tagline: 'Universitetet i Oslo · GT3 · Racing NM 2027',
     copyright: '© Burnout Motors — Prøv · fiks · test på nytt',
     privacy: 'Personvern',
+    contact_role: 'Partnerskap og drift',
+    org_label: 'Org.nr',
   },
 };
 

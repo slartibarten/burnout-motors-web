@@ -80,7 +80,7 @@ export default function MaintenancePage() {
         </p>
 
         <a
-          href="mailto:adamvi@uio.no"
+          href="mailto:adamv@burnoutmotors.no"
           style={{
             display: 'inline-block',
             fontFamily: 'var(--font-display)',

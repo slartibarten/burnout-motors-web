@@ -28,7 +28,14 @@ const securityHeaders = [
 
 const nextConfig = {
   images: {
-    unoptimized: true,
+    // Krever `sharp`. Uten optimalisering ble hero-bildet sendt som
+    // 2000×1500 / 1,3 MB til alle enheter, uten WebP/AVIF eller srcset.
+    // Next resizer per breakpoint og serverer AVIF/WebP; hero-JPEG-en havner
+    // rundt 80–150 KB på mobil. Optimaliserte filer caches i .next/cache/images.
+    formats: ['image/avif', 'image/webp'],
+    deviceSizes: [640, 750, 828, 1080, 1200, 1920],
+    imageSizes: [64, 128, 256, 384],
+    minimumCacheTTL: 60 * 60 * 24 * 30,
   },
   async headers() {
     return [

@@ -131,8 +131,9 @@ export default async function PrivacyPage() {
 
   return (
     <>
+      <a href="#innhold" className="bm-skip">{t.nav.skip}</a>
       <Nav labels={t.nav} locale={locale} />
-      <main className="page-enter bg-[var(--ink-1000)] px-5 pb-24 pt-20 text-[var(--ink-0)] sm:px-8">
+      <main id="innhold" className="page-enter bg-[var(--ink-1000)] px-5 pb-24 pt-20 text-[var(--ink-0)] sm:px-8">
         <article className="mx-auto max-w-[720px]">
           <h1 className="font-[family-name:var(--font-display)] text-[clamp(32px,4vw,48px)] font-extrabold leading-tight">
             {policy.title}

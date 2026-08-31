@@ -7,7 +7,10 @@ import { cleanString, isValidEmail } from '@/lib/validation';
 export async function POST(req: NextRequest) {
   try {
     if (!rateLimit(getClientIp(req))) {
-      return NextResponse.json({ error: 'For mange forsøk. Prøv igjen om litt.' }, { status: 429 });
+      return NextResponse.json(
+        { code: 'rate_limit', error: 'For mange forsøk. Prøv igjen om litt.' },
+        { status: 429 }
+      );
     }
 
     const body = await req.json();
@@ -23,10 +26,16 @@ export async function POST(req: NextRequest) {
     const field = cleanString(body.field, 255);
 
     if (!name || !email || !field) {
-      return NextResponse.json({ error: 'Alle felt er påkrevd.' }, { status: 400 });
+      return NextResponse.json(
+        { code: 'missing_fields', error: 'Alle felt er påkrevd.' },
+        { status: 400 }
+      );
     }
     if (!isValidEmail(email)) {
-      return NextResponse.json({ error: 'Ugyldig e-postadresse.' }, { status: 400 });
+      return NextResponse.json(
+        { code: 'invalid_email', error: 'Ugyldig e-postadresse.' },
+        { status: 400 }
+      );
     }
 
     const db = await createDbConnection();
@@ -47,6 +56,9 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ ok: true });
   } catch (err) {
     console.error('Application error:', err);
-    return NextResponse.json({ error: 'Noe gikk galt. Prøv igjen.' }, { status: 500 });
+    return NextResponse.json(
+      { code: 'server', error: 'Noe gikk galt. Prøv igjen.' },
+      { status: 500 }
+    );
   }
 }

@@ -8,8 +8,11 @@ export default async function PageShell({ children }: { children: React.ReactNod
 
   return (
     <>
+      {/* Synlig først ved tastaturfokus — uten denne må man tabbe gjennom
+          hele navigasjonen på hver sidelasting. */}
+      <a href="#innhold" className="bm-skip">{t.nav.skip}</a>
       <Nav labels={t.nav} locale={locale} />
-      <main className="page-enter">{children}</main>
+      <main id="innhold" className="page-enter">{children}</main>
       <Footer t={t.footer} />
     </>
   );

@@ -35,7 +35,10 @@ export default function RaceStrip({ labels }: { labels: Labels }) {
 
   return (
     <section aria-label={labels.title} className="border-t border-[var(--ink-800)] bg-[var(--ink-900)] px-5 py-6 sm:px-8">
-      <div className="mx-auto flex max-w-[var(--container-max)] flex-wrap items-center justify-between gap-x-10 gap-y-4">
+      {/* Tittel og status hører sammen og holdes samlet. Med justify-between
+          på ytterste nivå ble de kastet ~700px fra hverandre på 1280px og
+          leste som to urelaterte widgets. */}
+      <div className="mx-auto flex max-w-[var(--container-max)] flex-wrap items-center gap-x-6 gap-y-4">
         <div className="flex flex-wrap items-center gap-x-4 gap-y-2">
           <span className="relative flex h-2.5 w-2.5" aria-hidden>
             <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-[var(--ember-500)] opacity-60 motion-reduce:animate-none" />
@@ -55,7 +58,7 @@ export default function RaceStrip({ labels }: { labels: Labels }) {
                 <span className="font-[family-name:var(--font-display)] text-[26px] font-extrabold leading-none tabular-nums text-[var(--ink-0)]">
                   {String(v).padStart(2, '0')}
                 </span>
-                <span className="font-[family-name:var(--font-mono)] text-[10px] uppercase tracking-[0.14em] text-[var(--ink-400)]">
+                <span className="font-[family-name:var(--font-mono)] text-[11px] uppercase tracking-[0.14em] text-[var(--ink-400)]">
                   {labels.units[k]}
                 </span>
               </div>

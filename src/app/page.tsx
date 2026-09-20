@@ -1,10 +1,11 @@
 import PageShell from '@/components/PageShell';
 import Image from 'next/image';
 import { Badge, Button } from '@/components/ui';
-import { Reveal, Counter, TiltCard, ParallaxHero } from '@/components/motion';
+import { Reveal, Counter, TiltCard } from '@/components/motion';
 import ApplyForm from '@/components/ApplyForm';
 import ContactForm from '@/components/ContactForm';
 import RaceStrip from '@/components/RaceStrip';
+import HeroVideo from '@/components/HeroVideo';
 import { getLocale, getT } from '@/lib/i18n';
 
 // Riktig sideforhold per logo — alle tre lå tidligere på 140×32, som er feil
@@ -30,11 +31,10 @@ const members: { name: string; role: string; photo?: string }[] = [
   { name: 'August Dehlin Høyden', role: 'Mechanical', photo: '/images/team/august.png' },
   { name: 'Albert Synnerström', role: 'Mechanical', photo: '/images/team/albert.png' },
   { name: 'Ådne Leraan', role: 'Mechanical', photo: '/images/team/adne.png' },
-  { name: 'Oskar Aanonsen', role: 'Mechanical', photo: '/images/team/oskar.png' },
   { name: 'Ferdinand Fjeld Adade', role: 'Mechanical / Marketing', photo: '/images/team/ferdinand.png' },
   { name: 'Nikolai Handeland', role: 'Electronics', photo: '/images/team/nikolai.png' },
   { name: 'Rokas Naudziunas', role: 'Mentor / Driver' },
-  { name: 'Vladislav Foss', role: 'Mentor / Driver' },
+  { name: 'Vladislav Foss', role: 'Mentor / Driver', photo: '/images/team/vladislav.png' },
   { name: 'Fadhil Khan', role: 'Mentor' },
 ];
 
@@ -54,41 +54,36 @@ export default async function HomePage() {
       {/* svh, ikke vh: på mobil regner vh med adresselinjen og gir et hero
           høyere enn det synlige vinduet. */}
       <section id="hjem" className="relative flex min-h-[calc(100svh-72px)] flex-col overflow-hidden bg-[var(--ink-1000)] text-[var(--ink-0)]">
-        <div
-          className="bm-glow-anim pointer-events-none absolute inset-0"
-          style={{ background: 'radial-gradient(58% 60% at 70% 44%, rgba(225,6,0,0.26) 0%, rgba(225,6,0,0.12) 32%, transparent 68%)' }}
+        {/* Bakgrunnsvideo — dempet loop av bilen ute på banen. Respekterer
+            «reduser bevegelse»: da vises bare poster-bildet, og videofila
+            lastes ikke ned. */}
+        <HeroVideo
+          src="/videos/hero-bg.mp4"
+          poster="/videos/hero-bg-poster.jpg"
+          className="absolute inset-0 z-0 h-full w-full object-cover"
         />
 
-        <ParallaxHero className="absolute right-[-72px] top-1/2 z-[1] hidden h-[70%] w-[56%] -translate-y-1/2 lg:block">
-          <div
-            className="relative h-full w-full overflow-hidden rounded-lg"
-            style={{
-              maskImage: 'linear-gradient(to right, transparent 0%, black 22%)',
-              WebkitMaskImage: 'linear-gradient(to right, transparent 0%, black 22%)',
-            }}
-          >
-            <Image
-              src="/images/car-frederikke.jpg"
-              alt={locale === 'en' ? 'Burnout Motors GT3 car at Frederikke plass' : 'Burnout Motors GT3-bil på Frederikke plass'}
-              fill
-              priority
-              sizes="(min-width: 1024px) 56vw, 0px"
-              className="object-cover"
-            />
-            <div className="pointer-events-none absolute left-4 top-4 h-6 w-6 border-l border-t border-[var(--ember-500)]" />
-            <div className="pointer-events-none absolute right-4 top-4 h-6 w-6 border-r border-t border-[var(--ember-500)]" />
-            <div className="pointer-events-none absolute bottom-4 left-4 h-6 w-6 border-b border-l border-[var(--ember-500)]" />
-            <div className="pointer-events-none absolute bottom-4 right-4 h-6 w-6 border-b border-r border-[var(--ember-500)]" />
-            <span className="pointer-events-none absolute bottom-5 right-12 font-[family-name:var(--font-mono)] text-[11px] tracking-[0.22em] text-[var(--ink-200)]">
-              BURNOUT&nbsp;//&nbsp;GT3
-            </span>
-          </div>
-        </ParallaxHero>
-
+        {/* Scrim: mørk venstre + bunn så teksten er lesbar, lysere mot bilen. */}
         <div
-          className="pointer-events-none absolute inset-0 z-[2] hidden lg:block"
-          style={{ background: 'linear-gradient(90deg, #000 30%, transparent 70%)' }}
+          className="pointer-events-none absolute inset-0 z-[1]"
+          style={{ background: 'linear-gradient(90deg, rgba(10,10,11,0.94) 0%, rgba(10,10,11,0.78) 30%, rgba(10,10,11,0.34) 60%, rgba(10,10,11,0.12) 100%)' }}
         />
+        <div
+          className="pointer-events-none absolute inset-0 z-[1]"
+          style={{ background: 'linear-gradient(to top, rgba(10,10,11,0.82) 0%, rgba(10,10,11,0.12) 42%, transparent 72%)' }}
+        />
+
+        {/* Ember-glød-accent bak bilen */}
+        <div
+          className="bm-glow-anim pointer-events-none absolute inset-0 z-[1]"
+          style={{ background: 'radial-gradient(48% 55% at 74% 52%, rgba(225,6,0,0.20) 0%, transparent 64%)' }}
+        />
+
+        {/* Hjørne-mark */}
+        <div className="pointer-events-none absolute bottom-5 right-6 z-[2] h-7 w-7 border-b border-r border-[var(--ember-500)]" />
+        <span className="pointer-events-none absolute bottom-6 right-14 z-[2] hidden font-[family-name:var(--font-mono)] text-[11px] tracking-[0.22em] text-[var(--ink-200)] sm:block">
+          BURNOUT&nbsp;//&nbsp;GT3
+        </span>
 
         <div className="relative z-[3] flex flex-1 items-center">
           <div className="mx-auto w-full max-w-[var(--container-max)] px-5 py-14 sm:px-8">
@@ -113,18 +108,6 @@ export default async function HomePage() {
           </div>
         </div>
 
-        {/* Ingen `priority` her: den ligger under tekstblokka på mobil, så den
-            er ikke LCP. Med priority forhåndslastet desktop et 1280px-bilde
-            som aldri vises. */}
-        <div className="relative z-[1] mx-5 mb-8 aspect-video overflow-hidden rounded-lg border border-[var(--ink-700)] sm:mx-8 lg:hidden">
-          <Image
-            src="/images/car-frederikke.jpg"
-            alt={locale === 'en' ? 'Burnout Motors GT3 car at Frederikke plass' : 'Burnout Motors GT3-bil på Frederikke plass'}
-            fill
-            sizes="(max-width: 1024px) 100vw, 0px"
-            className="object-cover"
-          />
-        </div>
       </section>
 
       {/* RACE-STRIP */}
@@ -271,27 +254,49 @@ export default async function HomePage() {
               </p>
             </Reveal>
           </div>
+        </div>
+      </section>
 
-          {/* Video */}
-          <Reveal className="mt-20">
-            <span className="bm-eyebrow">{t.car.video_eyebrow}</span>
-            <h3 className="mt-3 mb-6 max-w-[20ch] font-[family-name:var(--font-display)] text-[clamp(22px,2.6vw,30px)] font-extrabold leading-[1.05] text-[var(--ink-0)]">
-              {t.car.video_title}
-            </h3>
-            {/* Venstrestilt som resten av siden. Videoen lå sentrert mens
-                overskriften var venstrestilt, ~400px fra hverandre på 1280px. */}
-            <div className="relative w-full max-w-[380px] overflow-hidden rounded-lg border border-[var(--ink-700)] bg-[var(--ink-1000)]">
+      {/* TESTDAG */}
+      <section id="testdag" className="border-t border-[var(--ink-800)] bg-[var(--ink-1000)] px-5 sm:px-8" style={{ paddingTop: '88px', paddingBottom: '88px' }}>
+        <div className="mx-auto max-w-[var(--container-max)]">
+          <Reveal>
+            <span className="bm-eyebrow">{h.testday.eyebrow}</span>
+            <h2 className="mt-3 max-w-[18ch] font-[family-name:var(--font-display)] text-[clamp(28px,3.6vw,44px)] font-extrabold leading-[0.98] text-[var(--ink-0)]">
+              {h.testday.title}
+            </h2>
+          </Reveal>
+
+          {/* Hero-video fra testdagen */}
+          <Reveal delay={100} className="mt-8">
+            <div className="relative aspect-video w-full overflow-hidden rounded-lg border border-[var(--ink-700)] bg-[var(--ink-900)]">
               <video
-                src="/images/bilen-starter.mp4"
-                poster="/images/bilen-starter-poster.jpg"
+                src="/videos/testday.mp4"
+                poster="/videos/testday-poster.jpg"
                 controls
                 playsInline
                 preload="metadata"
-                aria-label={t.car.video_title}
-                className="block w-full max-h-[70vh]"
+                aria-label={h.testday.title}
+                className="h-full w-full object-cover"
               />
             </div>
           </Reveal>
+
+          {/* Bildegalleri fra testdagen */}
+          <div className="mt-4 grid grid-cols-2 gap-4 sm:grid-cols-4">
+            {[
+              { src: '/images/testday/pit-engine.jpg', alt: locale === 'en' ? 'Working on the car in the paddock' : 'Arbeid på bilen i depotet' },
+              { src: '/images/testday/team-car.jpg', alt: locale === 'en' ? 'The team around the car on track' : 'Teamet rundt bilen på banen' },
+              { src: '/images/testday/paddock.jpg', alt: locale === 'en' ? 'Adjustments between sessions' : 'Justeringer mellom øktene' },
+              { src: '/images/testday/group.jpg', alt: locale === 'en' ? 'The Burnout Motors team on test day' : 'Burnout Motors-teamet på testdagen' },
+            ].map((img, i) => (
+              <Reveal key={img.src} delay={(i % 4) * 60}>
+                <div className="relative aspect-[4/3] w-full overflow-hidden rounded border border-[var(--ink-700)]">
+                  <Image src={img.src} alt={img.alt} fill sizes="(max-width: 640px) 50vw, 25vw" className="object-cover" />
+                </div>
+              </Reveal>
+            ))}
+          </div>
         </div>
       </section>
 

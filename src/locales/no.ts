@@ -64,6 +64,7 @@ const no = {
     testday: {
       eyebrow: 'Testdag',
       title: 'Bilen ute på banen',
+      credit_label: 'Foto & video',
     },
   },
   about: {

@@ -64,6 +64,7 @@ const en: Translations = {
     testday: {
       eyebrow: 'Test day',
       title: 'The car out on track',
+      credit_label: 'Photos & video',
     },
   },
   about: {

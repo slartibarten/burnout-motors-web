@@ -1,6 +1,6 @@
 import PageShell from '@/components/PageShell';
 import Image from 'next/image';
-import { Badge, Button } from '@/components/ui';
+import { Button } from '@/components/ui';
 import { Reveal, Counter, TiltCard } from '@/components/motion';
 import ApplyForm from '@/components/ApplyForm';
 import ContactForm from '@/components/ContactForm';
@@ -79,19 +79,10 @@ export default async function HomePage() {
           style={{ background: 'radial-gradient(48% 55% at 74% 52%, rgba(225,6,0,0.20) 0%, transparent 64%)' }}
         />
 
-        {/* Hjørne-mark */}
-        <div className="pointer-events-none absolute bottom-5 right-6 z-[2] h-7 w-7 border-b border-r border-[var(--ember-500)]" />
-        <span className="pointer-events-none absolute bottom-6 right-14 z-[2] hidden font-[family-name:var(--font-mono)] text-[11px] tracking-[0.22em] text-[var(--ink-200)] sm:block">
-          BURNOUT&nbsp;//&nbsp;GT3
-        </span>
 
         <div className="relative z-[3] flex flex-1 items-center">
           <div className="mx-auto w-full max-w-[var(--container-max)] px-5 py-14 sm:px-8">
             <div className="max-w-[600px]">
-              <div className="mb-5 flex gap-2.5">
-                <Badge tone="accent" variant="solid" shape="pill">{h.badge_gt3}</Badge>
-                <Badge tone="neutral" variant="outline" shape="pill">{h.badge_uni}</Badge>
-              </div>
               <h1 className="max-w-[15ch] font-[family-name:var(--font-display)] text-[clamp(40px,6vw,84px)] font-extrabold leading-[0.95] tracking-[-0.01em]">
                 {h.hero_title.split('GT3')[0]}
                 <span className="text-[var(--ember-500)]">GT3</span>
@@ -297,6 +288,17 @@ export default async function HomePage() {
               </Reveal>
             ))}
           </div>
+          <p className="mt-3 font-[family-name:var(--font-mono)] text-[11px] tracking-[0.04em] text-[var(--ink-400)]">
+            {h.testday.credit_label}:{' '}
+            <a
+              href="https://www.instagram.com/aksellieproduksjon/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-[var(--ink-200)] underline underline-offset-2 hover:text-[var(--ink-0)]"
+            >
+              @aksellieproduksjon
+            </a>
+          </p>
         </div>
       </section>
 

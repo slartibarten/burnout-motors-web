@@ -2,8 +2,7 @@ import PageShell from '@/components/PageShell';
 import Image from 'next/image';
 import { Button } from '@/components/ui';
 import { Reveal, Counter, TiltCard } from '@/components/motion';
-import ApplyForm from '@/components/ApplyForm';
-import ContactForm from '@/components/ContactForm';
+import ContactHub from '@/components/ContactHub';
 import RaceStrip from '@/components/RaceStrip';
 import HeroVideo from '@/components/HeroVideo';
 import { getLocale, getT } from '@/lib/i18n';
@@ -23,14 +22,11 @@ const partnerLogos = [
 // Samsvarer med footeren. MERK: adressen må opprettes hos domeneleverandøren før deploy.
 const CONTACT_EMAIL = 'adamv@burnoutmotors.no';
 
-// Sortert etter ansvarsområde: ledelse → drift → mekanikk → elektronikk → mentor/fører.
+// Sortert etter ansvarsområde: ledelse → mekanikk → elektronikk → mentor/fører.
 const members: { name: string; role: string; photo?: string }[] = [
   { name: 'Adam Dehli Villanger', role: 'Co-Project Lead', photo: '/images/team/adam.png' },
   { name: 'Filip Wlodarczyk', role: 'Co-Project Lead', photo: '/images/team/filip.png' },
-  { name: 'Johar Khalid', role: 'Operations', photo: '/images/team/johar.png' },
   { name: 'August Dehlin Høyden', role: 'Mechanical', photo: '/images/team/august.png' },
-  { name: 'Albert Synnerström', role: 'Mechanical', photo: '/images/team/albert.png' },
-  { name: 'Ådne Leraan', role: 'Mechanical', photo: '/images/team/adne.png' },
   { name: 'Ferdinand Fjeld Adade', role: 'Mechanical / Marketing', photo: '/images/team/ferdinand.png' },
   { name: 'Nikolai Handeland', role: 'Electronics', photo: '/images/team/nikolai.png' },
   { name: 'Rokas Naudziunas', role: 'Mentor / Driver' },
@@ -46,7 +42,6 @@ export default async function HomePage() {
   const locale = await getLocale();
   const t = getT(locale);
   const h = t.home;
-  const currentYear = new Date().getFullYear();
 
   return (
     <PageShell>
@@ -92,7 +87,7 @@ export default async function HomePage() {
                 {h.hero_desc}
               </p>
               <div className="mt-8 flex flex-col gap-3.5 sm:flex-row sm:flex-wrap">
-                <Button href="#partnere" variant="accent" size="lg">{h.cta_partner}</Button>
+                <Button href="#bli-partner" variant="accent" size="lg">{h.cta_partner}</Button>
                 <Button href="#apply" variant="outline" size="lg">{h.cta_join}</Button>
               </div>
             </div>
@@ -174,38 +169,36 @@ export default async function HomePage() {
                 {h.roadmap_title}
               </h3>
             </Reveal>
-            <div className="mt-10 grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-4">
-              {h.roadmap.map(([year, title, desc], i) => {
-                // Fylt prikk = nådd, hul prikk = ikke nådd ennå. Uten dette
-                // leste 2027 som «nå», siden rødt er konvensjonen for nåtid.
-                const y = Number(year);
-                const state = y < currentYear ? 'done' : y === currentYear ? 'now' : 'goal';
-                const reached = state !== 'goal';
+            <div className="mt-10 grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-5">
+              {h.roadmap.map(([year, title, desc, state], i) => {
+                // Grå fylt prikk = nådd, rød fylt = neste steg, hul = sluttmålet.
                 return (
-                  <Reveal key={year} delay={i * 80}>
-                    <div className={`relative border-t-2 pt-5 ${state === 'now' ? 'border-[var(--ember-500)]' : 'border-[var(--ink-700)]'}`}>
+                  <Reveal key={title} delay={i * 80}>
+                    <div className={`relative border-t-2 pt-5 ${state === 'next' ? 'border-[var(--ember-500)]' : 'border-[var(--ink-700)]'}`}>
                       <span
                         className={`absolute -top-[5px] left-0 h-2.5 w-2.5 rounded-full ${
-                          state === 'now'
+                          state === 'next'
                             ? 'bg-[var(--ember-500)]'
-                            : reached
+                            : state === 'done'
                               ? 'bg-[var(--ink-400)]'
                               : 'border-2 border-[var(--ember-500)] bg-[var(--ink-1000)]'
                         }`}
                       />
-                      <div className="flex items-center gap-2.5">
-                        <span className={`font-[family-name:var(--font-mono)] text-[12px] tracking-[0.18em] ${state === 'done' ? 'text-[var(--ink-400)]' : 'text-[var(--ember-400)]'}`}>
-                          {year}
-                        </span>
+                      <div className="flex min-h-[22px] items-center gap-2.5">
+                        {year && (
+                          <span className={`font-[family-name:var(--font-mono)] text-[12px] tracking-[0.18em] ${state === 'done' ? 'text-[var(--ink-400)]' : 'text-[var(--ember-400)]'}`}>
+                            {year}
+                          </span>
+                        )}
                         {state !== 'done' && (
                           <span
                             className={`rounded-[var(--radius-pill)] px-2 py-0.5 font-[family-name:var(--font-mono)] text-[11px] uppercase tracking-[0.14em] ${
-                              state === 'now'
+                              state === 'next'
                                 ? 'bg-[var(--ember-500)] text-[var(--ink-0)]'
                                 : 'border border-[var(--ember-500)] text-[var(--ember-400)]'
                             }`}
                           >
-                            {state === 'now' ? h.roadmap_now : h.roadmap_goal}
+                            {state === 'next' ? h.roadmap_next : h.roadmap_goal}
                           </span>
                         )}
                       </div>
@@ -365,19 +358,15 @@ export default async function HomePage() {
           </div>
           </div>
 
-          {/* Søknad */}
-          <div id="apply" className="mx-auto mt-20 max-w-[720px]">
-            <Reveal>
-              <span className="bm-eyebrow">{t.team.apply_eyebrow}</span>
-              <h3 className="mt-3 font-[family-name:var(--font-display)] text-[clamp(26px,3.4vw,40px)] font-extrabold leading-[1.05] text-[var(--ink-0)]">
-                {t.team.apply_title}
-              </h3>
-              <p className="mb-8 mt-3.5 max-w-[52ch] font-[family-name:var(--font-text)] text-[16px] leading-[1.6] text-[var(--ink-300)]">
-                {t.team.apply_desc}
-              </p>
-              <ApplyForm labels={t.team.form} />
-            </Reveal>
-          </div>
+          {/* Søknaden bor i kontaktseksjonen — her er bare veien dit, i samme
+              form som partner-CTA-en, så begge seksjonene slutter likt. */}
+          <Reveal className="mt-16 flex flex-wrap items-center justify-between gap-5 rounded-lg border border-[var(--ink-700)] border-l-[3px] border-l-[var(--ember-500)] bg-[var(--ink-900)] p-8">
+            <div>
+              <h3 className="m-0 font-[family-name:var(--font-display)] text-[24px] font-bold text-[var(--ink-0)]">{t.team.apply_title}</h3>
+              <p className="mb-0 mt-2 max-w-[60ch] font-[family-name:var(--font-text)] text-[15px] text-[var(--ink-300)]">{t.team.apply_desc}</p>
+            </div>
+            <Button href="#apply" variant="accent" size="lg">{h.folkene_cta}</Button>
+          </Reveal>
         </div>
       </section>
 
@@ -447,7 +436,7 @@ export default async function HomePage() {
               <h3 className="m-0 font-[family-name:var(--font-display)] text-[24px] font-bold text-[var(--ink-0)]">{t.partners.cta_title}</h3>
               <p className="mb-0 mt-2 font-[family-name:var(--font-text)] text-[15px] text-[var(--ink-300)]">{t.partners.cta_desc}</p>
             </div>
-            <Button href="#kontakt" variant="accent" size="lg">{t.partners.cta_btn}</Button>
+            <Button href="#bli-partner" variant="accent" size="lg">{t.partners.cta_btn}</Button>
           </Reveal>
         </div>
       </section>
@@ -480,25 +469,28 @@ export default async function HomePage() {
 
       {/* KONTAKT */}
       <section id="kontakt" className="border-t border-[var(--ink-800)] bg-[var(--ink-1000)] px-5 sm:px-8" style={{ paddingTop: '88px', paddingBottom: '96px' }}>
-        <div className="mx-auto max-w-[720px]">
+        {/* Ankere for fanene i ContactHub — alle lander på toppen av seksjonen. */}
+        <span id="apply" aria-hidden="true" className="block" />
+        <span id="bli-partner" aria-hidden="true" className="block" />
+        <div className="mx-auto max-w-[var(--container-max)]">
           <Reveal>
             <span className="bm-eyebrow">{t.contact.eyebrow}</span>
             <h2 className="mt-3 font-[family-name:var(--font-display)] text-[clamp(28px,3.6vw,44px)] font-extrabold leading-[0.98] text-[var(--ink-0)]">
               {t.contact.hero_title}
             </h2>
-            <p className="mb-8 mt-3.5 max-w-[54ch] font-[family-name:var(--font-text)] text-[16px] leading-[1.55] text-[var(--ink-200)]">
+            <p className="mb-12 mt-3.5 max-w-[54ch] font-[family-name:var(--font-text)] text-[16px] leading-[1.55] text-[var(--ink-200)]">
               {t.contact.hero_desc}
             </p>
-            <ContactForm labels={t.contact.form} />
-            <p className="mt-6 text-center font-[family-name:var(--font-text)] text-[15px] text-[var(--ink-300)]">
-              {t.contact.email_label}{' '}
-              <a
-                href={`mailto:${CONTACT_EMAIL}`}
-                className="font-[family-name:var(--font-mono)] text-[var(--ink-0)] underline decoration-[var(--ember-500)] decoration-2 underline-offset-4"
-              >
-                {CONTACT_EMAIL}
-              </a>
-            </p>
+          </Reveal>
+          <Reveal delay={80}>
+            <ContactHub
+              copy={t.contact.hub}
+              applyLabels={t.team.form}
+              contactLabels={t.contact.form}
+              partnerSubject={{ label: t.contact.partner_subject_label, placeholder: t.contact.partner_subject_placeholder }}
+              email={CONTACT_EMAIL}
+              emailLabel={t.contact.email_label}
+            />
           </Reveal>
         </div>
       </section>

@@ -4,7 +4,7 @@ import { sendContactNotification, type EnquiryType } from '@/lib/email';
 import { rateLimit, getClientIp } from '@/lib/rate-limit';
 import { cleanString, cleanOptionalString, isValidEmail } from '@/lib/validation';
 
-// Må holdes i synk med <Select>-alternativene i src/components/ContactForm.tsx.
+// Må holdes i synk med fanene i src/components/ContactHub.tsx (EnquiryType i ContactForm.tsx).
 const ENQUIRY_TYPES = ['partner', 'rekruttering', 'presse', 'annet'] as const;
 
 function parseEnquiryType(value: unknown): EnquiryType {

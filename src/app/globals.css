@@ -46,7 +46,8 @@ html {
 
 /* Ankerseksjoner skal ikke gjemmes bak sticky-nav ved scroll-til */
 section[id],
-div[id='apply'] {
+span[id='apply'],
+span[id='bli-partner'] {
   /* 72px nav + 2px topp-kant, ellers lander seksjonen 2px under headeren */
   scroll-margin-top: 74px;
 }

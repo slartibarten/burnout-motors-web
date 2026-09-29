@@ -1,6 +1,6 @@
 'use client';
 import { useState } from 'react';
-import { Input, Button, Card } from './ui';
+import { Input, Button } from './ui';
 
 type State = 'idle' | 'loading' | 'success' | 'error';
 
@@ -72,47 +72,43 @@ export default function ApplyForm({ labels }: { labels: Labels }) {
 
   if (state === 'success') {
     return (
-      <Card stripe inverse padding="48px">
-        <div role="status" className="py-6 text-center">
-          <div aria-hidden="true" className="mb-4 text-[32px]">✓</div>
-          <h3 className="mb-2 font-[family-name:var(--font-display)] text-[22px] font-bold text-[var(--ink-0)]">
-            {labels.success_title}
-          </h3>
-          <p className="font-[family-name:var(--font-text)] text-[15px] text-[var(--ink-300)]">
-            {labels.success_desc}
-          </p>
-        </div>
-      </Card>
+      <div role="status" className="py-10 text-center">
+        <div aria-hidden="true" className="mb-4 text-[32px]">✓</div>
+        <h3 className="mb-2 font-[family-name:var(--font-display)] text-[22px] font-bold text-[var(--ink-0)]">
+          {labels.success_title}
+        </h3>
+        <p className="font-[family-name:var(--font-text)] text-[15px] text-[var(--ink-300)]">
+          {labels.success_desc}
+        </p>
+      </div>
     );
   }
 
   return (
-    <Card stripe inverse padding="48px">
-      <form onSubmit={handleSubmit} className="flex flex-col gap-[18px]">
-        {/* Honeypot — hidden from users, catches bots. Do not remove. */}
-        <div aria-hidden="true" className="absolute left-[-9999px] h-px w-px overflow-hidden">
-          <input type="text" name="website" tabIndex={-1} autoComplete="off" />
-        </div>
-        <Input label={labels.name_label} placeholder={labels.name_placeholder} name="name" required autoComplete="name" />
-        <Input label={labels.email_label} placeholder={labels.email_placeholder} type="email" name="email" required autoComplete="email" />
-        <Input label={labels.field_label} placeholder={labels.field_placeholder} name="field" required autoComplete="organization-title" />
+    <form onSubmit={handleSubmit} className="flex flex-col gap-[18px]">
+      {/* Honeypot — hidden from users, catches bots. Do not remove. */}
+      <div aria-hidden="true" className="absolute left-[-9999px] h-px w-px overflow-hidden">
+        <input type="text" name="website" tabIndex={-1} autoComplete="off" />
+      </div>
+      <Input label={labels.name_label} placeholder={labels.name_placeholder} name="name" required autoComplete="name" />
+      <Input label={labels.email_label} placeholder={labels.email_placeholder} type="email" name="email" required autoComplete="email" />
+      <Input label={labels.field_label} placeholder={labels.field_placeholder} name="field" required autoComplete="organization-title" />
 
-        {/* Alltid montert: en live region må finnes i DOM-en før teksten
-            settes inn, ellers annonserer ikke skjermlesere endringen. */}
-        <p role="alert" className="m-0 font-[family-name:var(--font-text)] text-[14px] text-[var(--ember-400)]">
-          {state === 'error' ? errorMsg : ''}
-        </p>
+      {/* Alltid montert: en live region må finnes i DOM-en før teksten
+          settes inn, ellers annonserer ikke skjermlesere endringen. */}
+      <p role="alert" className="m-0 font-[family-name:var(--font-text)] text-[14px] text-[var(--ember-400)]">
+        {state === 'error' ? errorMsg : ''}
+      </p>
 
-        <Button variant="accent" size="lg" fullWidth type="submit" disabled={state === 'loading'}>
-          {state === 'loading' ? labels.submitting : labels.submit}
-        </Button>
-        <p className="m-0 max-w-[58ch] font-[family-name:var(--font-text)] text-[12px] leading-[1.5] text-[var(--ink-400)]">
-          {labels.privacy_notice}{' '}
-          <a href="/personvern" className="text-[var(--ink-200)] underline">
-            {labels.privacy_link}
-          </a>
-        </p>
-      </form>
-    </Card>
+      <Button variant="accent" size="lg" fullWidth type="submit" disabled={state === 'loading'}>
+        {state === 'loading' ? labels.submitting : labels.submit}
+      </Button>
+      <p className="m-0 max-w-[58ch] font-[family-name:var(--font-text)] text-[12px] leading-[1.5] text-[var(--ink-400)]">
+        {labels.privacy_notice}{' '}
+        <a href="/personvern" className="text-[var(--ink-200)] underline">
+          {labels.privacy_link}
+        </a>
+      </p>
+    </form>
   );
 }

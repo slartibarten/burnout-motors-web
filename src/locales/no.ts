@@ -21,7 +21,7 @@ const no = {
     // Nøkkeltallene handler nå om hvor prosjektet står i dag.
     momentum: [
       [350, 'Hestekrefter'],
-      [11, 'Teammedlemmer'],
+      [8, 'Teammedlemmer'],
       [5, 'Fagfelt'],
     ] as [number, string][],
     mission_eyebrow: 'Oppdraget',
@@ -49,14 +49,17 @@ const no = {
     },
     roadmap_eyebrow: 'Veien til NM',
     roadmap_title: 'Milepælene som tar oss til startstreken',
-    roadmap_now: 'Nå',
+    roadmap_next: 'Neste',
     roadmap_goal: 'Mål',
+    // Status settes eksplisitt: dyno-testen har ingen dato ennå, og
+    // «nådd» kan ikke utledes av årstallet alene.
     roadmap: [
-      ['2024', 'Grunnlagt', 'Startet av studenter ved UiO med én idé: bygg en ekte racerbil.'],
-      ['2025', 'Bygging', 'Chassis, motor og drivlinje bygges opp i verkstedet – del for del.'],
-      ['2026', 'Første start', 'Motoren fyres opp for første gang foran publikum.'],
-      ['2027', 'Racing NM', 'Vi stiller på startstreken. Målet hele veien.'],
-    ] as [string, string, string][],
+      ['2024', 'Grunnlagt', 'Startet av studenter ved UiO med én idé: bygg en ekte racerbil.', 'done'],
+      ['2025', 'Bygging', 'Chassis, motor og drivlinje bygges opp i verkstedet – del for del.', 'done'],
+      ['2026', 'Testdag', 'Motoren fyrt opp og bilen ute på banen for første gang.', 'done'],
+      ['', 'Dyno-test', 'Motoren måles i benken – vi finner de ekte tallene og justerer.', 'next'],
+      ['2027', 'Racing NM GT3', 'Vi stiller på startstreken i GT3-klassen. Målet hele veien.', 'goal'],
+    ] as [string, string, string, 'done' | 'next' | 'goal'][],
     follow_eyebrow: 'Følg reisen',
     follow_title: 'Bak kulissene, rett fra verkstedet',
     follow_desc: 'Bygging, testing og alt som ryker underveis – vi deler hele veien mot NM 2027 på Instagram.',
@@ -145,15 +148,27 @@ const no = {
   contact: {
     eyebrow: 'Ta kontakt',
     hero_title: 'KONTAKT',
-    hero_desc: 'Rekruttering, samarbeid eller presse – send oss en melding.',
+    hero_desc: 'Søk om plass på teamet, bli partner eller send oss en melding – alt samlet ett sted.',
+    hub: {
+      join: {
+        tab: 'Bli med',
+        title: 'Søk om å bli med på teamet',
+        desc: 'Vi rekrutterer fortløpende hele året. Du trenger ingen motorsporterfaring – bare vilje til å stå på.',
+      },
+      partner: {
+        tab: 'Partner',
+        title: 'Bli partner',
+        desc: 'Fortell oss litt om bedriften din og hva dere ser for dere – så tar vi praten derfra.',
+      },
+      other: {
+        tab: 'Annet',
+        title: 'Presse eller noe annet?',
+        desc: 'Send oss en melding, så svarer vi som regel innen et par dager.',
+      },
+    },
+    partner_subject_label: 'Bedrift',
+    partner_subject_placeholder: 'Bedriftens navn',
     form: {
-      title: 'Send en melding',
-      subtitle: 'Vi svarer som regel innen et par dager.',
-      type_label: 'Hva gjelder det?',
-      type_partner: 'Partnerskap / sponsing',
-      type_rekruttering: 'Rekruttering',
-      type_presse: 'Presse',
-      type_annet: 'Annet',
       name_label: 'Navn',
       name_placeholder: 'Ditt navn',
       email_label: 'E-post',
